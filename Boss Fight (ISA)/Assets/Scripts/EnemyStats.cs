@@ -4,6 +4,12 @@ public class EnemyStats : MonoBehaviour
 {
     public float MaxHealth = 100;
     private float health;
+    private Animator anim;
+
+    private void Awake()
+    {
+        anim = GetComponentInChildren<Animator>();
+    }
 
     private void Start()
     {
@@ -18,7 +24,6 @@ public class EnemyStats : MonoBehaviour
 
     public void takeDamage(float amount)
     {
-        Debug.Log("AUU!");
         health -= amount;
         if (health <= 0)
         {
@@ -28,7 +33,13 @@ public class EnemyStats : MonoBehaviour
 
     public void onDie()
     {
-        Debug.Log("Dood enzo");
+        anim.SetBool("Dead", true);
+        float animationDuration = anim.GetCurrentAnimatorClipInfo(0).Length;
+        Invoke("destroyCorpse", animationDuration + .5f);
+    }
+
+    private void destroyCorpse()
+    {
         Destroy(gameObject);
     }
 }
