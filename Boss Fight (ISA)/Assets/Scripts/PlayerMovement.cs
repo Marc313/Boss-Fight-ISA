@@ -5,6 +5,8 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed = 5f;
     public float jumpSpeed;
 
+    public bool isInteracting;
+
     private Rigidbody rb;
     private Animator anim;
     private Camera cam;
@@ -18,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        HandleMoveInput();
+        if(!isInteracting) HandleMoveInput();
     }
 
     private void HandleMoveInput()
@@ -43,8 +45,9 @@ public class PlayerMovement : MonoBehaviour
         Vector3 moveDirection = (cam.transform.forward * vert + cam.transform.right * hor).normalized;
         Vector3 movement = moveDirection * moveSpeed * Time.deltaTime;
 
-        transform.rotation = Quaternion.LookRotation(moveDirection);
         rb.position += movement;
+
+        transform.rotation = Quaternion.Euler(0, Quaternion.LookRotation(moveDirection).eulerAngles.y, 0);
     }
 
     private float ClampMoveInput(float input)
