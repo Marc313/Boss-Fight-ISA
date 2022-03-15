@@ -89,6 +89,18 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!114 &-5645093534098473989
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b27ab2a3a83c874a892153f544c1b4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1107 &-4244867360295886268
 AnimatorStateMachine:
   serializedVersion: 6
@@ -291,7 +303,8 @@ AnimatorState:
   m_Transitions:
   - {fileID: -5952281571359685526}
   m_StateMachineBehaviours:
-  - {fileID: 2412967084591586064}
+  - {fileID: 6956111803078794882}
+  - {fileID: -5645093534098473989}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -306,7 +319,7 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!114 &2412967084591586064
+--- !u!114 &6956111803078794882
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -315,9 +328,36 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46bbcb90322c7d145b9347cbed6816fe, type: 3}
+  m_Script: {fileID: 11500000, guid: 0df0705ef700458418f90f6a15eb055c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onStateEnter:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -5645093534098473989}
+        m_TargetAssemblyTypeName: ResponseAnimator, Assembly-CSharp
+        m_MethodName: onPlayerAttackOver
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onStateUpdate:
+    m_PersistentCalls:
+      m_Calls: []
+  onStateExit:
+    m_PersistentCalls:
+      m_Calls: []
+  onStateMove:
+    m_PersistentCalls:
+      m_Calls: []
+  onStateIK:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1102 &7539280949376315367
 AnimatorState:
   serializedVersion: 6

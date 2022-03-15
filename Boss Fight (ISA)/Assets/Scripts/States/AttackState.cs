@@ -18,7 +18,10 @@ public class AttackState : State
         if(!enemyAI.targetInAttackRange())
         {
             fsm.SwitchState(typeof(ChaseState));
+            return;
         }
+
+        if (enemyAI.currentAttack == 0) enemyAI.AttackTarget(1);
     }
 
     public override int getNumber() { return 2; }

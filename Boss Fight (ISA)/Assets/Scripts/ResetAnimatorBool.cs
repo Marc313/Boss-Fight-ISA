@@ -6,6 +6,6 @@ public class ResetAnimatorBool : StateMachineBehaviour
 {
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        FindObjectOfType<CombatOneHanded>().onAttackOver();
+        
     }
 }

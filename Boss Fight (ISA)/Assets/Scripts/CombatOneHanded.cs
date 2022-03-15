@@ -17,17 +17,22 @@ public class CombatOneHanded : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Attack();
+    }
+
+    private void Attack()
+    {
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             playerMove.isInteracting = true;
-            if(currentAttack < numAttacks) currentAttack++;
+            if (currentAttack < numAttacks) currentAttack++;
             setAnimatorAttackValue(currentAttack);
         }
     }
 
-    public void onAttackOver()
+    public void onAttackOver(bool isInteracting)
     {
-        playerMove.isInteracting = false;
+        playerMove.isInteracting = isInteracting;
         currentAttack = 0;
         setAnimatorAttackValue(currentAttack);
     }

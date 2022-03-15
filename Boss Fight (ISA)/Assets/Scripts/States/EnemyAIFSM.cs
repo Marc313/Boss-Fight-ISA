@@ -3,8 +3,7 @@ using UnityEngine.AI;
 
 public class EnemyAIFSM : MonoBehaviour
 {
-    public Transform target { get; private set; }      // Most likely the player
-    public PlayerMovement player { get; private set; }
+    // --- Inspired by my Building Playful World Enemy script --- //
 
     [Header("Range")]
     public float sightRadius = 10f;       // The enemy will chase the target if it is in this radius
@@ -13,6 +12,11 @@ public class EnemyAIFSM : MonoBehaviour
     [Header("Attack Stats")]
     public float attackDamage;
 
+    public Transform target { get; private set; }
+    public PlayerMovement player { get; private set; }
+
+    public int currentAttack { get; private set; }
+    public State state;
     private Animator anim;
 
     private FSM stateMachine;
@@ -56,6 +60,16 @@ public class EnemyAIFSM : MonoBehaviour
         agent.SetDestination(originalPosition);
     }
 
+    public void stopChase()
+    {
+        agent.enabled = false;
+    }
+
+    public void continueChase()
+    {
+        agent.enabled = true;
+    }
+
     public bool targetInSight()
     {
         float distance = distanceToTarget();
@@ -76,6 +90,8 @@ public class EnemyAIFSM : MonoBehaviour
 
     public void AttackTarget(int attackID)
     {
-        anim.SetInteger("Attack", attackID);
+        Debug.Log($"Do attack {attackID} while current attack is {currentAttack}");
+        currentAttack = attackID;
+        anim.SetInteger("Attack", currentAttack);
     }
 }

@@ -1,9 +1,8 @@
 using UnityEngine;
 
-public class EnemyStats : MonoBehaviour
+public class EnemyStats : CharacterStats
 {
-    public float MaxHealth = 100;
-    private float health;
+    public HealthBar healthbar;
     private Animator anim;
 
     private void Awake()
@@ -11,29 +10,9 @@ public class EnemyStats : MonoBehaviour
         anim = GetComponentInChildren<Animator>();
     }
 
-    private void Start()
+    public override void onDie()
     {
-        health = MaxHealth;
-    }
-
-    public void Heal(float amount)
-    {
-        health += amount;
-        if (health > MaxHealth) health = MaxHealth;
-    }
-
-    public void takeDamage(float amount)
-    {
-        health -= amount;
-        if (health <= 0)
-        {
-            onDie();
-        }
-    }
-
-    public void onDie()
-    {
-        anim.SetBool("Dead", true);
+        anim.SetTrigger("Death");
         float animationDuration = anim.GetCurrentAnimatorClipInfo(0).Length;
         Invoke("destroyCorpse", animationDuration + .5f);
     }
