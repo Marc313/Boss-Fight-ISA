@@ -154,7 +154,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 868523718790026325}
         m_TargetAssemblyTypeName: ResponseAnimator, Assembly-CSharp
-        m_MethodName: onEnemyAttackOver
+        m_MethodName: onEnemyAttackOverInteracting
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -272,25 +272,25 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Horizontal
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Attack
     m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Death
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -345,7 +345,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: -8682521321774300534}
         m_TargetAssemblyTypeName: ResponseAnimator, Assembly-CSharp
-        m_MethodName: onEnemyAttackOver
+        m_MethodName: onEnemyAttackOverMovement
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

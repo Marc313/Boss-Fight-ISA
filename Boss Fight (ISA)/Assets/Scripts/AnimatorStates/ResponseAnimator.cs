@@ -7,9 +7,14 @@ public class ResponseAnimator : StateMachineBehaviour
         FindObjectOfType<CombatOneHanded>().onAttackOver(isInteracting);
     }
 
-    public void onEnemyAttackOver(int attackID)
+    public void onEnemyAttackOverMovement(int attackID)
     {
-        FindObjectOfType<EnemyAIFSM>().AttackTarget(attackID);
+        FindObjectOfType<EnemyAIFSM>().AttackTarget(attackID, false);
+    }
+
+    public void onEnemyAttackOverInteracting(int attackID)
+    {
+        FindObjectOfType<EnemyAIFSM>().AttackTarget(attackID, true);
     }
 
     public void onEnemyAttackOver()
@@ -19,10 +24,11 @@ public class ResponseAnimator : StateMachineBehaviour
         if (enemy.targetInAttackRange())
         {
             int attackID = enemy.currentAttack == 2 ? 2 : enemy.currentAttack + 1;
-            enemy.AttackTarget(attackID);
-        } else
+            enemy.AttackTarget(attackID, true);
+        }
+        else
         {
-            enemy.AttackTarget(0);
+            enemy.AttackTarget(0, false);
         }
     }
 

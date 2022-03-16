@@ -12,16 +12,26 @@ public class ChaseState : State
 
     public override void onUpdate()
     {
-        enemyAI.chasePlayer();
-
-        if(enemyAI.targetOutOfSight())
+        if (enemyAI.targetOutOfSight())
         {
             fsm.SwitchState(typeof(IdleState));
+            return;
         }
 
         if(enemyAI.targetInAttackRange())
         {
             fsm.SwitchState(typeof(AttackState));
+            return;
+        }
+
+        if (enemyAI.isInteracting)
+        {
+            enemyAI.stopChase();
+        }
+        else
+        {
+            enemyAI.continueChase();
+            enemyAI.chasePlayer();
         }
     }
 

@@ -17,6 +17,8 @@ public class EnemyAIFSM : MonoBehaviour
 
     public int currentAttack { get; private set; }
     public State state;
+
+    public bool isInteracting { get; private set; }
     private Animator anim;
 
     private FSM stateMachine;
@@ -88,9 +90,9 @@ public class EnemyAIFSM : MonoBehaviour
         return distance <= agent.stoppingDistance;
     }
 
-    public void AttackTarget(int attackID)
+    public void AttackTarget(int attackID, bool isInteracting)
     {
-        Debug.Log($"Do attack {attackID} while current attack is {currentAttack}");
+        this.isInteracting = isInteracting;
         currentAttack = attackID;
         anim.SetInteger("Attack", currentAttack);
     }

@@ -13,6 +13,7 @@ public class EnemyStats : CharacterStats
     public override void onDie()
     {
         anim.SetTrigger("Death");
+        GetComponent<EnemyAIFSM>().enabled = false;
         float animationDuration = anim.GetCurrentAnimatorClipInfo(0).Length;
         Invoke("destroyCorpse", animationDuration + .5f);
     }
