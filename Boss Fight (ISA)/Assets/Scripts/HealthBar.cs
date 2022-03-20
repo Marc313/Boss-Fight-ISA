@@ -4,7 +4,9 @@ using UnityEngine.UI;
 public class HealthBar : MonoBehaviour
 {
     private Slider Healthbar;
-    public CharacterStats Owner { private get; set; }
+    private CharacterStats owner;
+
+    public CharacterStats Owner { private get { return owner; } set { owner = value;  SubscribeFunction(); } }
 
     private void Awake()
     {
@@ -13,12 +15,17 @@ public class HealthBar : MonoBehaviour
 
     private void OnEnable()
     {
-        EnemyStats.OnHealthChanged += UpdateHealthBar;
+        SubscribeFunction();
+    }
+
+    private void SubscribeFunction()
+    {
+        owner.OnHealthChanged += UpdateHealthBar;
     }
 
     private void OnDisable()
     {
-        EnemyStats.OnHealthChanged -= UpdateHealthBar;
+        owner.OnHealthChanged -= UpdateHealthBar;
     }
 
     private void UpdateHealthBar(float value)

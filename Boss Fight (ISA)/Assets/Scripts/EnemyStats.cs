@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class EnemyStats : CharacterStats
 {
-    public HealthBar healthbar;
     private Animator anim;
 
     private void Awake()
     {
+        healthBar.Owner = this;
         anim = GetComponentInChildren<Animator>();
     }
 

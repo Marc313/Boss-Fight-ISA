@@ -3,9 +3,15 @@ using UnityEngine;
 
 public abstract class CharacterStats : MonoBehaviour
 {
-    public static event Action<float> OnHealthChanged;
+    public event Action<float> OnHealthChanged;
     public float MaxHealth = 100;
     protected float health;
+    [SerializeField] protected HealthBar healthBar;
+
+    private void Awake()
+    {
+        healthBar.Owner = this;
+    }
 
     private void Start()
     {
