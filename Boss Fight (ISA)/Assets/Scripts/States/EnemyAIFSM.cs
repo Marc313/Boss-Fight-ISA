@@ -16,7 +16,7 @@ public class EnemyAIFSM : MonoBehaviour
     public PlayerMovement player { get; private set; }
 
     public int currentAttack { get; private set; }
-    public State state;
+    [HideInInspector] public State state;
 
     public bool isInteracting { get; private set; }
     private Animator anim;

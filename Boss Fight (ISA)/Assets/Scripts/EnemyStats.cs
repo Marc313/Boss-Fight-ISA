@@ -3,6 +3,7 @@ using UnityEngine;
 public class EnemyStats : CharacterStats
 {
     private Animator anim;
+    private bool Died;
 
     private void Awake()
     {
@@ -12,6 +13,9 @@ public class EnemyStats : CharacterStats
 
     public override void onDie()
     {
+        if (Died) return;
+
+        Died = true;
         anim.SetTrigger("Death");
         GetComponent<EnemyAIFSM>().enabled = false;
         float animationDuration = anim.GetCurrentAnimatorClipInfo(0).Length;
