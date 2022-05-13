@@ -12,13 +12,11 @@ public class EnemyHitboxes : MonoBehaviour
 
         foreach (Collider collider in colliders)
         {
-            Debug.Log(collider.gameObject.name);
             PlayerStats playerStats = collider.GetComponent<PlayerStats>();
 
             if(playerStats != null)
             {
                 playerStats.takeDamage(10f);
-                Debug.Log("AU");
                 break;
             }
         }

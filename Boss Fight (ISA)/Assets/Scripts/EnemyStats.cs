@@ -7,7 +7,6 @@ public class EnemyStats : CharacterStats
 
     private void Awake()
     {
-        healthBar.Owner = this;
         anim = GetComponentInChildren<Animator>();
     }
 
@@ -25,5 +24,6 @@ public class EnemyStats : CharacterStats
     private void destroyCorpse()
     {
         Destroy(gameObject);
+        GameManager.OnStateChange(GameManager.GameState.WON);
     }
 }

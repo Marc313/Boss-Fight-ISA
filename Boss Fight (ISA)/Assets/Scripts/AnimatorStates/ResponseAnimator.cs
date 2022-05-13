@@ -4,7 +4,12 @@ public class ResponseAnimator : StateMachineBehaviour
 {
     public void onPlayerAttackOver(bool isInteracting)
     {
-        FindObjectOfType<CombatOneHanded>().onAttackOver(isInteracting);
+        FindObjectOfType<CombatOneHanded>().OnAttackOver(isInteracting);
+    }
+
+    public void OnPlayerBlockOver()
+    {
+        FindObjectOfType<CombatOneHanded>().OnBlockOver();
     }
 
     public void onEnemyAttackOverMovement(int attackID)

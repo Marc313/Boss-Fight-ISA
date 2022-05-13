@@ -5,7 +5,6 @@ public class AttackState : State
     public override void onEnter()
     {
         enemyAI.AttackTarget(1, true);
-        Debug.Log("AttackState");
     }
 
     public override void onExit()

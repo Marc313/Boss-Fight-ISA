@@ -10,7 +10,6 @@ public abstract class CharacterStats : MonoBehaviour
 
     private void Awake()
     {
-        healthBar.Owner = this;
     }
 
     private void Start()
@@ -32,7 +31,7 @@ public abstract class CharacterStats : MonoBehaviour
             onDie();
         }
 
-        OnHealthChanged?.Invoke(GetHealthValue());
+        healthBar.UpdateHealthBar(GetHealthValue());
     }
 
     private float GetHealthValue()

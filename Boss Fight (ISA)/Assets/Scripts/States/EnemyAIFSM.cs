@@ -43,7 +43,16 @@ public class EnemyAIFSM : MonoBehaviour
 
     private void Update()
     {
-        stateMachine?.onUpdate();
+        if(GameManager.state != GameManager.GameState.FIGHT)
+        {
+            isInteracting = true;
+        }
+
+        if(!isInteracting)
+        {
+            stateMachine?.onUpdate();
+        }
+        
     }
 
     // Calculates the distance of this GameObject to its target

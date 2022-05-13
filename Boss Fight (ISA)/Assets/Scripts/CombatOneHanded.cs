@@ -7,6 +7,7 @@ public class CombatOneHanded : MonoBehaviour
     private Animator anim;
     private int currentAttack;
     private PlayerMovement playerMove;
+    private bool IsBlocking;
 
     private void Awake()
     {
@@ -17,27 +18,45 @@ public class CombatOneHanded : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Attack();
+        HandleAttackInput();
+        HandleBlockInput();
     }
 
-    private void Attack()
+    private void HandleAttackInput()
     {
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             playerMove.isInteracting = true;
             if (currentAttack < numAttacks) currentAttack++;
-            setAnimatorAttackValue(currentAttack);
+            SetAnimatorAttackValue(currentAttack);
         }
     }
 
-    public void onAttackOver(bool isInteracting)
+    private void HandleBlockInput()
+    {
+        if (Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            playerMove.isInteracting = true;
+            IsBlocking = true;
+            anim.SetBool("IsBlocking", true);
+        }
+    }
+
+    public void OnBlockOver()
+    {
+        playerMove.isInteracting = false;
+        IsBlocking = false;
+        anim.SetBool("IsBlocking", false);
+    }
+
+    public void OnAttackOver(bool isInteracting)
     {
         playerMove.isInteracting = isInteracting;
         currentAttack = 0;
-        setAnimatorAttackValue(currentAttack);
+        SetAnimatorAttackValue(currentAttack);
     }
 
-    private void setAnimatorAttackValue(int attack)
+    private void SetAnimatorAttackValue(int attack)
     {
         anim.SetInteger("Attack", attack);
     }
