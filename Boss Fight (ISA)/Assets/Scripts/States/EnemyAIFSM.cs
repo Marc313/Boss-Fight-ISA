@@ -52,9 +52,29 @@ public class EnemyAIFSM : MonoBehaviour
         {
             stateMachine?.onUpdate();
         }
-        
     }
 
+    public void AttackTarget(int attackID, bool isInteracting)
+    {
+        this.isInteracting = isInteracting;
+        currentAttack = attackID;
+        anim.SetInteger("Attack", currentAttack);
+    }
+
+    public void Stagger()
+    {
+        this.isInteracting = true;
+        currentAttack = 0;
+        anim.SetBool("IsStaggering", true);
+    }
+
+    public void OnStaggerOver()
+    {
+        this.isInteracting = false;
+        anim.SetBool("IsStaggering", false);
+    }
+
+    #region FSM
     // Calculates the distance of this GameObject to its target
     float distanceToTarget()
     {
@@ -98,11 +118,5 @@ public class EnemyAIFSM : MonoBehaviour
         float distance = distanceToTarget();
         return distance <= agent.stoppingDistance;
     }
-
-    public void AttackTarget(int attackID, bool isInteracting)
-    {
-        this.isInteracting = isInteracting;
-        currentAttack = attackID;
-        anim.SetInteger("Attack", currentAttack);
-    }
+    #endregion
 }

@@ -23,13 +23,12 @@ public class AnimationEvents : MonoBehaviour
 
         foreach (Collider collider in colliders)
         {
-            Debug.Log(collider.gameObject.name);
+            //Debug.Log(collider.gameObject.name);
             EnemyStats enemyStats = collider.GetComponent<EnemyStats>();
 
             if (enemyStats != null)
             {
                 enemyStats.takeDamage(20f);
-                Debug.Log("AU");
                 break;
             }
         }

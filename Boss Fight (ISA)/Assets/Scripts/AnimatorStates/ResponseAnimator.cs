@@ -2,14 +2,28 @@ using UnityEngine;
 
 public class ResponseAnimator : StateMachineBehaviour
 {
+    private CombatOneHanded playerCombat;
+    private EnemyAIFSM enemy;
+
+    private void Awake()
+    {
+        playerCombat = FindObjectOfType<CombatOneHanded>();
+        enemy = FindObjectOfType<EnemyAIFSM>();
+    }
+
     public void onPlayerAttackOver(bool isInteracting)
     {
-        FindObjectOfType<CombatOneHanded>().OnAttackOver(isInteracting);
+        FindObjectOfType<CombatOneHanded>()?.OnAttackOver(isInteracting);
     }
 
     public void OnPlayerBlockOver()
     {
-        FindObjectOfType<CombatOneHanded>().OnBlockOver();
+        FindObjectOfType<CombatOneHanded>()?.OnBlockOver();
+    }
+
+    public void OnPlayerShieldBashOver()
+    {
+        FindObjectOfType<CombatOneHanded>()?.OnShieldBashOver();
     }
 
     public void onEnemyAttackOverMovement(int attackID)
@@ -20,6 +34,11 @@ public class ResponseAnimator : StateMachineBehaviour
     public void onEnemyAttackOverInteracting(int attackID)
     {
         FindObjectOfType<EnemyAIFSM>().AttackTarget(attackID, true);
+    }
+
+    public void onEnemyStaggerOver()
+    {
+        FindObjectOfType<EnemyAIFSM>().OnStaggerOver();
     }
 
     public void onEnemyAttackOver()
@@ -36,5 +55,4 @@ public class ResponseAnimator : StateMachineBehaviour
             enemy.AttackTarget(0, false);
         }
     }
-
 }

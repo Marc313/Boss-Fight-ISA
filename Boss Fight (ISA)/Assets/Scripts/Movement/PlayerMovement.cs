@@ -1,12 +1,14 @@
+using System;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float moveSpeed = 5f;
-    public float jumpSpeed;
+    public float RunSpeed = 5f;
+    public float ShieldWalkSpeed = 1f;
 
     public bool isInteracting;
 
+    private float moveSpeed = 5f;
     private Rigidbody rb;
     private Animator anim;
     private Camera cam;
@@ -42,7 +44,6 @@ public class PlayerMovement : MonoBehaviour
         if (vertInput != 0 || horInput != 0)
             Move(vertInput, horInput);
 
-
         //rb.velocity = new Vector3(movement.x, rb.velocity.y, movement.z);
     }
 
@@ -54,6 +55,16 @@ public class PlayerMovement : MonoBehaviour
         rb.position += movement;
 
         transform.rotation = Quaternion.Euler(0, Quaternion.LookRotation(moveDirection).eulerAngles.y, 0);
+    }
+
+    public void SetShieldMoveSpeed()
+    {
+        moveSpeed = ShieldWalkSpeed;
+    }
+
+    public void SetRunMoveSpeed()
+    {
+        moveSpeed = RunSpeed;
     }
 
     private float ClampMoveInput(float input)
@@ -70,10 +81,5 @@ public class PlayerMovement : MonoBehaviour
     {
         anim.SetFloat("Vertical", vert, 0.1f, Time.deltaTime);
         anim.SetFloat("Horizontal", Mathf.Abs(hor), 0.1f, Time.deltaTime);
-    }
-
-    private void isGrounded()
-    {
-
     }
 }
