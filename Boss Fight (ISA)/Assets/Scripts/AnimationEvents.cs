@@ -5,6 +5,12 @@ using UnityEngine;
 public class AnimationEvents : MonoBehaviour
 {
     public Transform hitbox;
+    private CombatOneHanded combat;
+
+    private void Awake()
+    {
+        combat = GetComponentInParent<CombatOneHanded>();
+    }
 
     public void EnableSwordCollider()
     {
@@ -32,5 +38,15 @@ public class AnimationEvents : MonoBehaviour
                 break;
             }
         }
+    }
+
+    public void ShieldBashStart()
+    {
+        combat.IsShieldBashing = true;
+    }
+
+    public void ShieldBashEnd()
+    {
+        combat.IsShieldBashing = false;
     }
 }

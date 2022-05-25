@@ -5,7 +5,7 @@ public class CombatOneHanded : MonoBehaviour
     public int numAttacks = 3;     // The number of the longest attack
     public int currentAttack { get; private set; }
     public bool IsBlocking { get; private set; }
-    public bool IsShieldBashing { get; private set; }
+    public bool IsShieldBashing { get; set; }
 
     private Animator anim;
     private PlayerMovement playerMove;
@@ -32,8 +32,8 @@ public class CombatOneHanded : MonoBehaviour
             if(IsBlocking)
             {
                 // ShieldBash
-                IsShieldBashing = true;
-                anim.SetBool("ShieldBash", true);
+                //IsShieldBashing = true;
+                anim.SetTrigger("ShieldBash");
             }
             else
             {
@@ -76,7 +76,7 @@ public class CombatOneHanded : MonoBehaviour
     public void OnShieldBashOver()
     {
         playerMove.isInteracting = false;
-        IsShieldBashing = false;
+        //IsShieldBashing = false;
         anim.SetBool("ShieldBash", false);
     }
 

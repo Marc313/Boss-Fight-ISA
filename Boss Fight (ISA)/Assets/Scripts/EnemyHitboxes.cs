@@ -5,8 +5,8 @@ using UnityEngine;
 public class EnemyHitboxes : MonoBehaviour
 {
     public Transform hitbox;
-    public EnemyStats stats;
-    public EnemyAIFSM EnemyAi;
+    private EnemyStats stats;
+    private EnemyAIFSM EnemyAi;
 
     private void Awake()
     {
