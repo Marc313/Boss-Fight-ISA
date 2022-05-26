@@ -3,8 +3,7 @@ using UnityEngine.AI;
 
 public class EnemyAIFSM : MonoBehaviour
 {
-    public Transform target { get; private set; }      // Most likely the player
-    public PlayerMovement player { get; private set; }
+    // --- Inspired by my Building Playful World Enemy script --- //
 
     [Header("Range")]
     public float sightRadius = 10f;       // The enemy will chase the target if it is in this radius
@@ -13,6 +12,13 @@ public class EnemyAIFSM : MonoBehaviour
     [Header("Attack Stats")]
     public float attackDamage;
 
+    public Transform target { get; private set; }
+    public PlayerMovement player { get; private set; }
+
+    public int currentAttack { get; private set; }
+    [HideInInspector] public State state;
+
+    public bool isInteracting { get; private set; }
     private Animator anim;
 
     private FSM stateMachine;
@@ -37,9 +43,38 @@ public class EnemyAIFSM : MonoBehaviour
 
     private void Update()
     {
-        stateMachine?.onUpdate();
+        if(GameManager.state != GameManager.GameState.FIGHT)
+        {
+            isInteracting = true;
+        }
+
+        if(!isInteracting)
+        {
+            stateMachine?.onUpdate();
+        }
     }
 
+    public void AttackTarget(int attackID, bool isInteracting)
+    {
+        this.isInteracting = isInteracting;
+        currentAttack = attackID;
+        anim.SetInteger("Attack", currentAttack);
+    }
+
+    public void Stagger()
+    {
+        this.isInteracting = true;
+        currentAttack = 0;
+        anim.SetBool("IsStaggering", true);
+    }
+
+    public void OnStaggerOver()
+    {
+        this.isInteracting = false;
+        anim.SetBool("IsStaggering", false);
+    }
+
+    #region FSM
     // Calculates the distance of this GameObject to its target
     float distanceToTarget()
     {
@@ -54,6 +89,16 @@ public class EnemyAIFSM : MonoBehaviour
     public void returnToPosition()
     {
         agent.SetDestination(originalPosition);
+    }
+
+    public void stopChase()
+    {
+        agent.enabled = false;
+    }
+
+    public void continueChase()
+    {
+        agent.enabled = true;
     }
 
     public bool targetInSight()
@@ -73,9 +118,5 @@ public class EnemyAIFSM : MonoBehaviour
         float distance = distanceToTarget();
         return distance <= agent.stoppingDistance;
     }
-
-    public void AttackTarget(int attackID)
-    {
-        anim.SetInteger("Attack", attackID);
-    }
+    #endregion
 }

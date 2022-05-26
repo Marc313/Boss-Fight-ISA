@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class FSM : MonoBehaviour
 {
-    private Dictionary<Type, State> states = new Dictionary<System.Type, State>();
+    private Dictionary<Type, State> states = new Dictionary<Type, State>();
     private State currentState;
 
-    private void Start()
+    private void Awake()
     {
         State[] stateComponents = GetComponents<State>();
         for (int i = 0; i < stateComponents.Length; i++)

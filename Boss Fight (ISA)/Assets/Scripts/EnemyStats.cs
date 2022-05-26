@@ -1,39 +1,22 @@
 using UnityEngine;
 
-public class EnemyStats : MonoBehaviour
+public class EnemyStats : CharacterStats
 {
-    public float MaxHealth = 100;
-    private float health;
     private Animator anim;
+    private bool Died;
 
     private void Awake()
     {
         anim = GetComponentInChildren<Animator>();
     }
 
-    private void Start()
+    public override void onDie()
     {
-        health = MaxHealth;
-    }
+        if (Died) return;
 
-    public void Heal(float amount)
-    {
-        health += amount;
-        if (health > MaxHealth) health = MaxHealth;
-    }
-
-    public void takeDamage(float amount)
-    {
-        health -= amount;
-        if (health <= 0)
-        {
-            onDie();
-        }
-    }
-
-    public void onDie()
-    {
-        anim.SetBool("Dead", true);
+        Died = true;
+        anim.SetTrigger("Death");
+        GetComponent<EnemyAIFSM>().enabled = false;
         float animationDuration = anim.GetCurrentAnimatorClipInfo(0).Length;
         Invoke("destroyCorpse", animationDuration + .5f);
     }
@@ -41,5 +24,6 @@ public class EnemyStats : MonoBehaviour
     private void destroyCorpse()
     {
         Destroy(gameObject);
+        GameManager.OnStateChange(GameManager.GameState.WON);
     }
 }

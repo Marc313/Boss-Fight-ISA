@@ -2,10 +2,12 @@ using UnityEngine;
 
 public class CombatOneHanded : MonoBehaviour
 {
-    public int numAttacks = 3;     // The number of the longest 
+    public int numAttacks = 3;     // The number of the longest attack
+    public int currentAttack { get; private set; }
+    public bool IsBlocking { get; private set; }
+    public bool IsShieldBashing { get; set; }
 
     private Animator anim;
-    private int currentAttack;
     private PlayerMovement playerMove;
 
     private void Awake()
@@ -17,22 +19,68 @@ public class CombatOneHanded : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        HandleAttackInput();
+        HandleBlockInput();
+    }
+
+    private void HandleAttackInput()
+    {
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             playerMove.isInteracting = true;
-            if(currentAttack < numAttacks) currentAttack++;
-            setAnimatorAttackValue(currentAttack);
+
+            if(IsBlocking)
+            {
+                // ShieldBash
+                //IsShieldBashing = true;
+                anim.SetTrigger("ShieldBash");
+            }
+            else
+            {
+                // SwordAttack
+                if (currentAttack < numAttacks) currentAttack++;
+                SetAnimatorAttackValue(currentAttack);
+            }
         }
     }
 
-    public void onAttackOver()
+    private void HandleBlockInput()
     {
-        playerMove.isInteracting = false;
-        currentAttack = 0;
-        setAnimatorAttackValue(currentAttack);
+        if (!playerMove.isInteracting && Input.GetKey(KeyCode.Mouse1))
+        {
+            IsBlocking = true;
+            anim.SetBool("IsBlocking", true);
+            playerMove.SetShieldMoveSpeed();
+        }
+
+        if (Input.GetKeyUp(KeyCode.Mouse1))
+        {
+            OnBlockOver();
+        }
     }
 
-    private void setAnimatorAttackValue(int attack)
+    public void OnAttackOver(bool isInteracting)
+    {
+        playerMove.isInteracting = isInteracting;
+        currentAttack = 0;
+        SetAnimatorAttackValue(currentAttack);
+    }
+
+    public void OnBlockOver()
+    {
+        IsBlocking = false;
+        anim.SetBool("IsBlocking", false);
+        playerMove.SetRunMoveSpeed();
+    }
+
+    public void OnShieldBashOver()
+    {
+        playerMove.isInteracting = false;
+        //IsShieldBashing = false;
+        anim.SetBool("ShieldBash", false);
+    }
+
+    private void SetAnimatorAttackValue(int attack)
     {
         anim.SetInteger("Attack", attack);
     }
