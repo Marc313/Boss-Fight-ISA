@@ -49,7 +49,7 @@ BlendTree:
     m_DirectBlendParameter: Vertical
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 192d75f981aa98b4a850db299d8b8875, type: 2}
+    m_Motion: {fileID: 7400000, guid: 8f50982bd5e94924fa2b6133b2b39874, type: 2}
     m_Threshold: 1
     m_Position: {x: 0, y: 1}
     m_TimeScale: 1
@@ -86,7 +86,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 686284308685591857}
         m_TargetAssemblyTypeName: ResponseAnimator, Assembly-CSharp
-        m_MethodName: onEnemyAttackOver
+        m_MethodName: EnemyPerformNextAttack
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -191,15 +191,15 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 868523718790026325}
         m_TargetAssemblyTypeName: ResponseAnimator, Assembly-CSharp
-        m_MethodName: onEnemyAttackOverInteracting
-        m_Mode: 3
+        m_MethodName: OnEnemyAttackOver
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
   onStateUpdate:
     m_PersistentCalls:
@@ -274,7 +274,7 @@ AnimatorStateMachine:
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 410, y: 540, z: 0}
   m_EntryPosition: {x: 20, y: 330, z: 0}
-  m_ExitPosition: {x: 500, y: 80, z: 0}
+  m_ExitPosition: {x: -170, y: 150, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: 1754379794947159723}
 --- !u!1101 &-1001263221546232006
@@ -313,31 +313,31 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Horizontal
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Attack
     m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Death
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: IsStaggering
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -431,8 +431,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: -8682521321774300534}
         m_TargetAssemblyTypeName: ResponseAnimator, Assembly-CSharp
-        m_MethodName: onEnemyAttackOverMovement
-        m_Mode: 3
+        m_MethodName: OnEnemyAttackOver
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

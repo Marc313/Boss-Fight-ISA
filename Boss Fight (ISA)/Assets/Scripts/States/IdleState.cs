@@ -4,7 +4,7 @@ public class IdleState : State
 {
     public override void onEnter()
     {
-        enemyAI.returnToPosition();
+        
     }
 
     public override void onExit()
@@ -19,6 +19,4 @@ public class IdleState : State
             fsm.SwitchState(typeof(ChaseState));
         }
     }
-
-    public override int getNumber() { return 0; }
 }

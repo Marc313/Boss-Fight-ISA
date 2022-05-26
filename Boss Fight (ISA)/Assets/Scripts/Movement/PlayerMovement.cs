@@ -1,27 +1,20 @@
-using System;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : Movement
 {
-    public float RunSpeed = 5f;
-    public float ShieldWalkSpeed = 1f;
-
-    public bool isInteracting;
-
-    private float moveSpeed = 5f;
     private Rigidbody rb;
-    private Animator anim;
     private Camera cam;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         rb = GetComponent<Rigidbody>();
-        anim = GetComponentInChildren<Animator>();
         cam = Camera.main;
     }
 
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
         if (!isInteracting)
         {
             HandleMoveInput();
@@ -50,22 +43,14 @@ public class PlayerMovement : MonoBehaviour
     private void Move(float vert, float hor)
     {
         Vector3 moveDirection = (cam.transform.forward * vert + cam.transform.right * hor).normalized;
-        Vector3 movement = moveDirection * moveSpeed * Time.deltaTime;
+        Vector3 movement = moveDirection * currentMoveSpeed * Time.deltaTime;
 
         rb.position += movement;
 
         transform.rotation = Quaternion.Euler(0, Quaternion.LookRotation(moveDirection).eulerAngles.y, 0);
     }
 
-    public void SetShieldMoveSpeed()
-    {
-        moveSpeed = ShieldWalkSpeed;
-    }
-
-    public void SetRunMoveSpeed()
-    {
-        moveSpeed = RunSpeed;
-    }
+    
 
     private float ClampMoveInput(float input)
     {

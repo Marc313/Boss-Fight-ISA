@@ -2,14 +2,21 @@ using UnityEngine;
 
 public class AttackState : State
 {
+    private EnemyCombat enemyCombat;
+
+    private void Awake()
+    {
+        enemyCombat = GetComponent<EnemyCombat>();
+    }
+
     public override void onEnter()
     {
-        enemyAI.AttackTarget(1, true);
+        enemyCombat.PerformAttack(1, true);
     }
 
     public override void onExit()
     {
-        enemyAI.AttackTarget(0, false);
+        enemyCombat.PerformAttack(0, false);
     }
 
     public override void onUpdate()
@@ -20,8 +27,6 @@ public class AttackState : State
             return;
         }
 
-        if (enemyAI.currentAttack == 0) enemyAI.AttackTarget(1, true);
+        if (enemyCombat.currentAttack == 0) enemyCombat.PerformAttack(1, true);
     }
-
-    public override int getNumber() { return 2; }
 }

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyAIFSM : MonoBehaviour
+public class EnemyAIFSM : Movement
 {
     // --- Inspired by my Building Playful World Enemy script --- //
 
@@ -9,21 +9,15 @@ public class EnemyAIFSM : MonoBehaviour
     public float sightRadius = 10f;       // The enemy will chase the target if it is in this radius
     public float losingRadius = 20f;      // The enemy will stop chasing the target if it is outside this radius
 
-    [Header("Attack Stats")]
-    public float attackDamage;
-
     public Transform target { get; private set; }
     public PlayerMovement player { get; private set; }
 
-    public int currentAttack { get; private set; }
     [HideInInspector] public State state;
-
-    public bool isInteracting { get; private set; }
-    private Animator anim;
 
     private FSM stateMachine;
     private NavMeshAgent agent;
-    private Vector3 originalPosition;
+
+    private EnemyCombat combat;
 
     private void Awake()
     {
@@ -34,11 +28,6 @@ public class EnemyAIFSM : MonoBehaviour
         target = player.transform;
 
         anim = GetComponentInChildren<Animator>();
-    }
-
-    void Start()
-    {
-        originalPosition = transform.position;
     }
 
     private void Update()
@@ -54,14 +43,14 @@ public class EnemyAIFSM : MonoBehaviour
         }
     }
 
-    public void AttackTarget(int attackID, bool isInteracting)
+    /*public void AttackTarget(int attackID, bool isInteracting)
     {
-        this.isInteracting = isInteracting;
+        //this.isInteracting = isInteracting;
         currentAttack = attackID;
         anim.SetInteger("Attack", currentAttack);
-    }
+    }*/
 
-    public void Stagger()
+    /*public void Stagger()
     {
         this.isInteracting = true;
         currentAttack = 0;
@@ -72,6 +61,23 @@ public class EnemyAIFSM : MonoBehaviour
     {
         this.isInteracting = false;
         anim.SetBool("IsStaggering", false);
+    }*/
+
+    /*public void StartRunningAnimation()
+    {
+        anim.SetFloat("Vertical", 1);
+    }
+
+    public void EndRunningAnimation()
+    {
+        anim.SetFloat("Vertical", 0);
+    }*/
+
+    // Movement
+    public void UpdateRunningValue()
+    {
+        anim.SetFloat("Vertical", agent.velocity.x);
+        anim.SetFloat("Horizontal", agent.velocity.z);
     }
 
     #region FSM
@@ -84,11 +90,6 @@ public class EnemyAIFSM : MonoBehaviour
     public void chasePlayer()
     {
         agent.SetDestination(target.position);
-    }
-
-    public void returnToPosition()
-    {
-        agent.SetDestination(originalPosition);
     }
 
     public void stopChase()

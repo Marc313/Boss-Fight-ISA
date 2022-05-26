@@ -2,57 +2,37 @@ using UnityEngine;
 
 public class ResponseAnimator : StateMachineBehaviour
 {
-    private CombatOneHanded playerCombat;
+    private PlayerCombat playerCombat;
     private EnemyAIFSM enemy;
 
     private void Awake()
     {
-        playerCombat = FindObjectOfType<CombatOneHanded>();
-        enemy = FindObjectOfType<EnemyAIFSM>();
+        // playerCombat = FindObjectOfType<PlayerCombat>();
+        // enemy = FindObjectOfType<EnemyAIFSM>();
     }
 
     public void onPlayerAttackOver(bool isInteracting)
     {
-        FindObjectOfType<CombatOneHanded>()?.OnAttackOver(isInteracting);
+        FindObjectOfType<PlayerCombat>()?.OnAttackOver(isInteracting);
     }
 
     public void OnPlayerBlockOver()
     {
-        FindObjectOfType<CombatOneHanded>()?.OnBlockOver();
+        FindObjectOfType<PlayerCombat>()?.OnBlockOver();
     }
 
-    public void OnPlayerShieldBashOver()
+    public void OnEnemyAttackOver(bool isInteracting)
     {
-        FindObjectOfType<CombatOneHanded>()?.OnShieldBashOver();
+        FindObjectOfType<EnemyCombat>().OnAttackOver(isInteracting);
     }
 
-    public void onEnemyAttackOverMovement(int attackID)
+    public void EnemyPerformNextAttack()
     {
-        FindObjectOfType<EnemyAIFSM>().AttackTarget(attackID, false);
-    }
-
-    public void onEnemyAttackOverInteracting(int attackID)
-    {
-        FindObjectOfType<EnemyAIFSM>().AttackTarget(attackID, true);
+        FindObjectOfType<EnemyCombat>().PerformNextAttack();
     }
 
     public void onEnemyStaggerOver()
     {
-        FindObjectOfType<EnemyAIFSM>().OnStaggerOver();
-    }
-
-    public void onEnemyAttackOver()
-    {
-        EnemyAIFSM enemy = FindObjectOfType<EnemyAIFSM>();
-
-        if (enemy.targetInAttackRange())
-        {
-            int attackID = enemy.currentAttack == 2 ? 2 : enemy.currentAttack + 1;
-            enemy.AttackTarget(attackID, true);
-        }
-        else
-        {
-            enemy.AttackTarget(0, false);
-        }
+        FindObjectOfType<EnemyCombat>().OnStaggerOver();
     }
 }

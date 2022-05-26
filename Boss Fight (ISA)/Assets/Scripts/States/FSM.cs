@@ -53,6 +53,4 @@ public abstract class State : MonoBehaviour
     public abstract void onUpdate();
     public abstract void onEnter();
     public abstract void onExit();
-
-    public abstract int getNumber();
 }
