@@ -3,7 +3,7 @@
 public class ChaseState : State
 {
    public override void onEnter()
-    {  
+    {
     }
 
     public override void onExit()
@@ -33,7 +33,7 @@ public class ChaseState : State
             enemyAI.continueChase();
             enemyAI.chasePlayer();
         }
-    }
 
-    public override int getNumber() { return 1; }
+        enemyAI.UpdateRunningValue();
+    }
 }
