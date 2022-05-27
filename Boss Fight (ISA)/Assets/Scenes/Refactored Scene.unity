@@ -1860,9 +1860,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e34f037f79938204a95440688b3e8d38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RunSpeed: 5
+  ShieldWalkSpeed: 1
+  isInteracting: 0
   sightRadius: 10
   losingRadius: 20
-  attackDamage: 0
   state: {fileID: 0}
 --- !u!114 &1409582931
 MonoBehaviour:
@@ -2012,12 +2014,24 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 7983d83e8548bfc4cbca8d36e62fb6e4, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1615212150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1615212146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4aa6727e4d7684c4a99859eafc25f2c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1779916507
 GameObject:
   m_ObjectHideFlags: 0
@@ -2205,6 +2219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b0f2e2746f64b3498d907b167418935, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mode: 0
   camSmoothing: 0.3
   sensitivityX: 200
   Offset: {x: 0, y: 0, z: 0}

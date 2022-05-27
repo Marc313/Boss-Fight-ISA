@@ -33,17 +33,17 @@ public class PlayerMovement : Movement
 
         UpdateAnimationValues(vertInput, horInput);
 
-        if (vertInput != 0 || horInput != 0)
+        if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            if (Input.GetKey(KeyCode.LeftShift))
-            {
-                DodgeStart();
-            } else
+            DodgeStart();
+        }
+        else
+        {
+            if (vertInput != 0 || horInput != 0)
             {
                 Move(vertInput, horInput);
             }
         }
-
         //rb.velocity = new Vector3(movement.x, rb.velocity.y, movement.z);
     }
 

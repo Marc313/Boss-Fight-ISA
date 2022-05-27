@@ -13,6 +13,7 @@ public class FollowPlayer : MonoBehaviour
     private float rotationY;
     private Transform Player;
     private Transform LockTarget;
+    private PlayerCombat playerCombat;
     public Quaternion targetLookRotation { get; private set; }
 
     // Start is called before the first frame update
@@ -21,27 +22,24 @@ public class FollowPlayer : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Player = FindObjectOfType<PlayerMovement>().transform;
         LockTarget = FindObjectOfType<EnemyAIFSM>()?.transform;
+        playerCombat = FindObjectOfType<PlayerCombat>();
+    }
+
+    private void OnEnable()
+    {
+        playerCombat.OnBlockingStart += SwitchToBlockingCamera;
+        playerCombat.OnBlockingEnd += SwitchToFreeCamera;
+    }
+    private void OnDisable()
+    {
+        playerCombat.OnBlockingStart -= SwitchToBlockingCamera;
+        playerCombat.OnBlockingEnd -= SwitchToFreeCamera;
     }
 
     // Update is called once per frame
     void Update()
     {
         MoveToPlayer();
-
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            switch (mode)
-            {
-                case CameraMode.FREE:
-                    mode = CameraMode.LOCK;
-                    break;
-                case CameraMode.LOCK:
-                    mode = CameraMode.FREE;
-                    break;
-                default:
-                    break;
-            }
-        }
 
         if (mode == CameraMode.FREE)
         {
@@ -51,6 +49,34 @@ public class FollowPlayer : MonoBehaviour
         {
             RotateToLockedTarget();
         }
+    }
+
+    public void SwitchCameraMode()
+    {
+        switch (mode)
+        {
+            case CameraMode.FREE:
+                mode = CameraMode.LOCK;
+                break;
+            case CameraMode.LOCK:
+                mode = CameraMode.FREE;
+                break;
+            default:
+                break;
+        }
+    }
+    public void SwitchCameraModeTo(CameraMode cameraMode)
+    {
+        mode = cameraMode;
+    }
+
+    public void SwitchToBlockingCamera()
+    {
+        SwitchCameraModeTo(CameraMode.LOCK);
+    }
+    public void SwitchToFreeCamera()
+    {
+        SwitchCameraModeTo(CameraMode.FREE);
     }
 
     private void MoveToPlayer()
