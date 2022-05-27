@@ -21,6 +21,11 @@ public class ResponseAnimator : StateMachineBehaviour
         FindObjectOfType<PlayerCombat>()?.OnBlockOver();
     }
 
+    public void OnPlayerDodgeOver()
+    {
+        FindObjectOfType<PlayerMovement>()?.OnDodgeOver();
+    }
+
     public void OnEnemyAttackOver(bool isInteracting)
     {
         FindObjectOfType<EnemyCombat>().OnAttackOver(isInteracting);

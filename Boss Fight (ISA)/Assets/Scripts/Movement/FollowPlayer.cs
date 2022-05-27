@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class FollowPlayer : MonoBehaviour
 {
+    public enum CameraMode { FREE, LOCK};
+
+    public CameraMode mode;
     public float camSmoothing;
     public float sensitivityX;
     public Vector3 Offset;
@@ -9,12 +12,15 @@ public class FollowPlayer : MonoBehaviour
     private float rotationX;
     private float rotationY;
     private Transform Player;
+    private Transform LockTarget;
+    public Quaternion targetLookRotation { get; private set; }
 
     // Start is called before the first frame update
     void Awake()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Player = FindObjectOfType<PlayerMovement>().transform;
+        LockTarget = FindObjectOfType<EnemyAIFSM>()?.transform;
     }
 
     // Update is called once per frame
@@ -22,8 +28,29 @@ public class FollowPlayer : MonoBehaviour
     {
         MoveToPlayer();
 
-        // Rotate the camera along with the mouse
-        RotateCamera();
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            switch (mode)
+            {
+                case CameraMode.FREE:
+                    mode = CameraMode.LOCK;
+                    break;
+                case CameraMode.LOCK:
+                    mode = CameraMode.FREE;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        if (mode == CameraMode.FREE)
+        {
+            // Rotate the camera along with the mouse
+            RotateCameraAlongMouse();
+        } else
+        {
+            RotateToLockedTarget();
+        }
     }
 
     private void MoveToPlayer()
@@ -32,7 +59,7 @@ public class FollowPlayer : MonoBehaviour
         transform.position = Player.position + Offset;
     }
 
-    public void RotateCamera()
+    public void RotateCameraAlongMouse()
     {
         // Input on the mouse X axis
         float mouseX = Input.GetAxis("Mouse X");
@@ -43,5 +70,11 @@ public class FollowPlayer : MonoBehaviour
         //transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, camSmoothing);
 
         transform.localRotation = Quaternion.Euler(transform.rotation.x, rotationY, transform.rotation.z);
+    }
+
+    public void RotateToLockedTarget()
+    {
+        targetLookRotation = Quaternion.LookRotation(LockTarget.position - Player.position);
+        transform.localRotation = targetLookRotation;
     }
 }

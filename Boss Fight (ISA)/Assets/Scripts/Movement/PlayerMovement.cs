@@ -3,13 +3,15 @@ using UnityEngine;
 public class PlayerMovement : Movement
 {
     private Rigidbody rb;
-    private Camera cam;
+    private FollowPlayer playerCamera;
+
+    public bool isDodging { get; private set; }
 
     protected override void Awake()
     {
         base.Awake();
         rb = GetComponent<Rigidbody>();
-        cam = Camera.main;
+        playerCamera = FindObjectOfType<FollowPlayer>();
     }
 
     protected override void Update()
@@ -18,9 +20,6 @@ public class PlayerMovement : Movement
         if (!isInteracting)
         {
             HandleMoveInput();
-
-            if (GameManager.state != GameManager.GameState.FIGHT)
-                isInteracting = true;
         }
     }
 
@@ -35,22 +34,48 @@ public class PlayerMovement : Movement
         UpdateAnimationValues(vertInput, horInput);
 
         if (vertInput != 0 || horInput != 0)
-            Move(vertInput, horInput);
+        {
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                DodgeStart();
+            } else
+            {
+                Move(vertInput, horInput);
+            }
+        }
 
         //rb.velocity = new Vector3(movement.x, rb.velocity.y, movement.z);
     }
 
     private void Move(float vert, float hor)
     {
-        Vector3 moveDirection = (cam.transform.forward * vert + cam.transform.right * hor).normalized;
+        Vector3 moveDirection = (playerCamera.transform.forward * vert + playerCamera.transform.right * hor).normalized;
         Vector3 movement = moveDirection * currentMoveSpeed * Time.deltaTime;
 
         rb.position += movement;
 
-        transform.rotation = Quaternion.Euler(0, Quaternion.LookRotation(moveDirection).eulerAngles.y, 0);
+        if(playerCamera.mode == FollowPlayer.CameraMode.FREE)
+        {
+            transform.rotation = Quaternion.Euler(0, Quaternion.LookRotation(moveDirection).eulerAngles.y, 0);
+        } else
+        {
+            transform.rotation = playerCamera.targetLookRotation;
+        }
     }
 
-    
+    private void DodgeStart()
+    {
+        isInteracting = true;
+        isDodging = true;
+        anim.SetBool("IsDodging", isDodging);
+    }
+
+    public void OnDodgeOver()
+    {
+        isInteracting = false;
+        isDodging = false;
+        anim.SetBool("IsDodging", isDodging);
+    }
 
     private float ClampMoveInput(float input)
     {
