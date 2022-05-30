@@ -1,10 +1,26 @@
 using UnityEngine;
+using System;
 
 public class PlayerCombat : Combat
 {
     //public int numAttacks = 3;     // The number of the longest attack
     public bool IsBlocking { get; private set; }
     public bool IsShieldBashing { get; set; }
+
+    public event Action OnBlockingStart;
+    public event Action OnBlockingEnd;
+
+    private void OnEnable()
+    {
+        OnBlockingStart += OnBlockStart;
+        OnBlockingEnd += OnBlockOver;
+    }
+
+    private void OnDisable()
+    {
+        OnBlockingStart -= OnBlockStart;
+        OnBlockingEnd -= OnBlockOver;
+    }
 
     // Update is called once per frame
     void Update()
@@ -36,12 +52,12 @@ public class PlayerCombat : Combat
     {
         if (!IsBlocking && !movement.isInteracting && Input.GetKey(KeyCode.Mouse1))
         {
-            OnBlockStart();
+            OnBlockingStart?.Invoke();
         }
 
         if (Input.GetKeyUp(KeyCode.Mouse1))
         {
-            OnBlockOver();
+            OnBlockingEnd?.Invoke();
         }
     }
 
