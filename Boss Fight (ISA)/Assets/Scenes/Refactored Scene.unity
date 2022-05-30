@@ -907,6 +907,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RunSpeed: 6
   ShieldWalkSpeed: 2
+  rotationSpeed: 200
   isInteracting: 0
 --- !u!114 &932523034
 MonoBehaviour:
@@ -1862,6 +1863,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RunSpeed: 5
   ShieldWalkSpeed: 1
+  rotationSpeed: 0
   isInteracting: 0
   sightRadius: 10
   losingRadius: 20

@@ -4,14 +4,21 @@ public class PlayerMovement : Movement
 {
     private Rigidbody rb;
     private FollowPlayer playerCamera;
+    private PlayerCombat combat;
 
     public bool isDodging { get; private set; }
+
+    private Vector3 moveDirection;
+
+    private enum RotationMode { FREE, LOCKON, SWITCHING};
+    private RotationMode rotateMode;
 
     protected override void Awake()
     {
         base.Awake();
         rb = GetComponent<Rigidbody>();
         playerCamera = FindObjectOfType<FollowPlayer>();
+        combat = GetComponent<PlayerCombat>();
     }
 
     protected override void Update()
@@ -21,6 +28,18 @@ public class PlayerMovement : Movement
         {
             HandleMoveInput();
         }
+    }
+
+    private void OnEnable()
+    {
+        combat.OnBlockingStart += SetRotationModeLocked;
+        combat.OnBlockingEnd += SetRotationModeFree;
+    }
+
+    private void OnDisable()
+    {
+        combat.OnBlockingStart -= SetRotationModeLocked;
+        combat.OnBlockingEnd -= SetRotationModeFree;
     }
 
     private void HandleMoveInput()
@@ -49,17 +68,23 @@ public class PlayerMovement : Movement
 
     private void Move(float vert, float hor)
     {
-        Vector3 moveDirection = (playerCamera.transform.forward * vert + playerCamera.transform.right * hor).normalized;
+        //Vector3 inputDirection = Vector3.forward * vert + Vector3.right * hor;
+        moveDirection = (playerCamera.transform.forward * vert + playerCamera.transform.right * hor).normalized;
         Vector3 movement = moveDirection * currentMoveSpeed * Time.deltaTime;
 
         rb.position += movement;
 
-        if(playerCamera.mode == FollowPlayer.CameraMode.FREE)
+        float inputMovementAngle = Vector3.Angle(transform.forward, moveDirection);
+        anim.SetFloat("InputMovementAngle", inputMovementAngle);
+        Debug.Log("Horizontal: " + hor);
+
+        // Rotation
+        if (rotateMode == RotationMode.FREE)
         {
-            transform.rotation = Quaternion.Euler(0, Quaternion.LookRotation(moveDirection).eulerAngles.y, 0);
-        } else
+            transform.rotation = GetFreeRotation();
+        } else if (rotateMode == RotationMode.LOCKON)
         {
-            transform.rotation = playerCamera.targetLookRotation;
+            transform.rotation = GetLockOnRotation();
         }
     }
 
@@ -75,6 +100,32 @@ public class PlayerMovement : Movement
         isInteracting = false;
         isDodging = false;
         anim.SetBool("IsDodging", isDodging);
+    }
+
+    private void SetRotationModeLocked()
+    {
+        rotateMode = RotationMode.SWITCHING;
+        Quaternion oldRotation = GetFreeRotation();
+        Quaternion targetRotation = GetLockOnRotation();
+        StartCoroutine(this.RotateTowardsSlowly(oldRotation, targetRotation, () => rotateMode = RotationMode.LOCKON));
+    }
+
+    private void SetRotationModeFree()
+    {
+        rotateMode = RotationMode.SWITCHING;
+        Quaternion oldRotation = GetLockOnRotation();
+        Quaternion targetRotation = GetFreeRotation();
+        StartCoroutine(this.RotateTowardsSlowly(oldRotation, targetRotation, () => rotateMode = RotationMode.FREE));
+    }
+
+    private Quaternion GetFreeRotation()
+    {
+        return transform.rotation = Quaternion.LookRotation(moveDirection);
+    }
+
+    private Quaternion GetLockOnRotation()
+    {
+        return transform.rotation = playerCamera.targetLookRotation;
     }
 
     private float ClampMoveInput(float input)

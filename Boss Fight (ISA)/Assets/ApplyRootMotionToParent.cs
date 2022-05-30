@@ -13,7 +13,6 @@ public class ApplyRootMotionToParent : MonoBehaviour
 
     private void OnAnimatorMove()
     {
-        Debug.Log("OnAnimatorMove: " + anim.deltaPosition.ToString());
         /*if (anim.deltaPosition.magnitude > .2f)
         {
             movement.gameObject.transform.position += anim.deltaPosition;

@@ -100,7 +100,11 @@ public class FollowPlayer : MonoBehaviour
 
     public void RotateToLockedTarget()
     {
-        targetLookRotation = Quaternion.LookRotation(LockTarget.position - Player.position);
+        Vector3 lookDirection = LockTarget.position - Player.position;
+        targetLookRotation = Quaternion.LookRotation(lookDirection);
         transform.localRotation = targetLookRotation;
+
+        // Thanks to Sebastian Graves for the addition
+        // lookDirection = LockTarget.position - cameraPi.position;
     }
 }
