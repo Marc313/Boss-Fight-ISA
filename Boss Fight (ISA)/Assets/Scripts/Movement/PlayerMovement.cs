@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class PlayerMovement : Movement
 {
+    public Transform EnemyLockOn;
+    
     private Rigidbody rb;
     private FollowPlayer playerCamera;
     private PlayerCombat combat;
@@ -120,12 +122,15 @@ public class PlayerMovement : Movement
 
     private Quaternion GetFreeRotation()
     {
-        return transform.rotation = Quaternion.LookRotation(moveDirection);
+        return Quaternion.LookRotation(moveDirection);
     }
 
     private Quaternion GetLockOnRotation()
     {
-        return transform.rotation = playerCamera.targetLookRotation;
+        Quaternion cameraRotation = playerCamera.targetLookRotation;
+        cameraRotation.x = 0;
+        cameraRotation.z = 0;
+        return cameraRotation;
     }
 
     private float ClampMoveInput(float input)

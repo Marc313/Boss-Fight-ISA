@@ -26,7 +26,8 @@ public abstract class Combat : MonoBehaviour
 
         foreach (Collider collider in colliders)
         {
-            //Debug.Log(collider.gameObject.name);
+            if (collider.gameObject == this.gameObject) continue; // If a character hits itself, ignore
+
             CharacterStats characterStats = collider.GetComponent<CharacterStats>();
 
             if (characterStats != null)

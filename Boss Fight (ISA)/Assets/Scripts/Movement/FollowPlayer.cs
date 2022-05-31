@@ -8,11 +8,11 @@ public class FollowPlayer : MonoBehaviour
     public float camSmoothing;
     public float sensitivityX;
     public Vector3 Offset;
+    public Transform EnemyLockOn;
 
     private float rotationX;
     private float rotationY;
     private Transform Player;
-    private Transform LockTarget;
     private PlayerCombat playerCombat;
     public Quaternion targetLookRotation { get; private set; }
 
@@ -21,7 +21,6 @@ public class FollowPlayer : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Player = FindObjectOfType<PlayerMovement>().transform;
-        LockTarget = FindObjectOfType<EnemyAIFSM>()?.transform;
         playerCombat = FindObjectOfType<PlayerCombat>();
     }
 
@@ -89,22 +88,17 @@ public class FollowPlayer : MonoBehaviour
     {
         // Input on the mouse X axis
         float mouseX = Input.GetAxis("Mouse X");
-        //float newRotationY = transform.rotation.y + mouseX * sensitivityX * Time.deltaTime;
         rotationY += mouseX * sensitivityX * Time.deltaTime;
-
-        //Quaternion newRotation = Quaternion.Euler(transform.rotation.x, newRotationY, transform.rotation.z);
-        //transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, camSmoothing);
 
         transform.localRotation = Quaternion.Euler(transform.rotation.x, rotationY, transform.rotation.z);
     }
 
     public void RotateToLockedTarget()
     {
-        Vector3 lookDirection = LockTarget.position - Player.position;
+        Vector3 lookDirection = EnemyLockOn.position - Player.position;
         targetLookRotation = Quaternion.LookRotation(lookDirection);
-        transform.localRotation = targetLookRotation;
+        //targetLookRotation = Quaternion.Euler(Mathf.Clamp(targetLookRotation.eulerAngles.x, -20, 20), targetLookRotation.y, targetLookRotation.z);
 
-        // Thanks to Sebastian Graves for the addition
-        // lookDirection = LockTarget.position - cameraPi.position;
+        transform.localRotation = targetLookRotation;
     }
 }
