@@ -35,7 +35,6 @@ public class BossCombat : Combat
                 if (playerCombat.IsShieldBashing)
                 {
                     Stagger();
-                    Debug.Log("Shield Bash!!");
                     break;
                 }
                 continue;           // Continue to next target if the target was not shieldbashing
@@ -49,30 +48,15 @@ public class BossCombat : Combat
             else if (playerCombat.IsBlocking && !playerCombat.IsShieldBashing)
             {
                 playerStats.takeDamage(attack.damage / 5);
-                Debug.Log("Block!");
             }
             else if (playerCombat.IsShieldBashing && !attack.ignoresShieldBash)
             {
                 Stagger();
-                Debug.Log("Shield Bash!!");
             }
 
             break;
         }
     }
-
-    /*public void PerformNextAttack()
-    {
-        if (enemyAI.targetInAttackRange())
-        {
-            int attackID = currentAttack + 1;
-            PerformAttack(attackID, true);
-        }
-        else
-        {
-            OnAttackOver(false);
-        }
-    }*/
 
     public void StopAttackCombo(AttackCombo combo)
     {
@@ -88,16 +72,17 @@ public class BossCombat : Combat
         {
             PerformAttack(attack);
             float attackLength = attack.GetAnimationLength(anim);
+            Debug.Log($"Length: {attackLength}");
             if (attackLength != -1)
             {
-                yield return new WaitForSeconds(attack.GetAnimationLength(anim));
+                yield return new WaitForSeconds(attackLength);
             } else
             {
                 yield return new WaitForSeconds(2f);
             }
         }
 
-        BossAI bossAI = (BossAI)movement;
+        BossAI bossAI = (BossAI) movement;
         if (bossAI != null)
         {
             bossAI.EnterRestingState(combo.AttackCooldown);

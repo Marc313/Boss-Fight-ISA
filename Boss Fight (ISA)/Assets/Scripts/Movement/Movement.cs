@@ -27,6 +27,16 @@ public abstract class Movement : MonoBehaviour
         }
     }
 
+    /*private void OnCollisionEnter(Collision collision)
+    {
+        // If the collider is another movement script, ignore the pushing.
+        Movement movementScript = collision.gameObject.GetComponent<Movement>();
+        if (movementScript != null)
+        {
+            Physics.ign
+        }
+    }*/
+
     public void SetShieldMoveSpeed()
     {
         currentMoveSpeed = ShieldWalkSpeed;

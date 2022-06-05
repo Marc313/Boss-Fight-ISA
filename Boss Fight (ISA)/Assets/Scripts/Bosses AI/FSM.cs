@@ -27,7 +27,6 @@ public class FSM : MonoBehaviour
 
     public void onUpdate()
     {
-        Debug.Log(currentState.ToString());
         currentState?.onUpdate();
     }
 

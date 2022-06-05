@@ -15895,9 +15895,12 @@ MonoBehaviour:
   ShieldWalkSpeed: 3
   rotationSpeed: 0
   isInteracting: 0
+  attackRange: 3
+  restingRange: 10
   sightRadius: 10
   losingRadius: 20
   state: {fileID: 0}
+  isInCombo: 0
 --- !u!54 &1409582931
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -6,6 +6,8 @@ public class BossAI : Movement
     // --- Inspired by my Building Playful World Enemy script --- //
 
     [Header("Range")]
+    public float attackRange = 3f;
+    public float restingRange = 6f;
     public float sightRadius = 10f;       // The enemy will chase the target if it is in this radius
     public float losingRadius = 20f;      // The enemy will stop chasing the target if it is outside this radius
 
@@ -13,6 +15,8 @@ public class BossAI : Movement
     public PlayerMovement player { get; private set; }
 
     [HideInInspector] public State state;
+
+    [HideInInspector] public bool isInCombo;
 
     private FSM stateMachine;
     private NavMeshAgent agent;
@@ -23,7 +27,7 @@ public class BossAI : Movement
     protected override void Awake()
     {
         base.Awake();
-        
+
         stateMachine = GetComponent<FSM>();
         agent = GetComponent<NavMeshAgent>();
         rb = GetComponent<Rigidbody>();
@@ -34,7 +38,7 @@ public class BossAI : Movement
 
     protected override void Update()
     {
-        if(GameManager.state == GameManager.GameState.FIGHT)
+        if (GameManager.state == GameManager.GameState.FIGHT)
         {
             stateMachine?.onUpdate();
         }
@@ -43,8 +47,32 @@ public class BossAI : Movement
     // Movement
     public void UpdateRunningValue()
     {
-        anim.SetFloat("Vertical", agent.velocity.x);
-        anim.SetFloat("Horizontal", agent.velocity.z);
+        float vert = 0; float hor = 0;
+
+        Vector3 moveDirection = agent.destination - transform.position;
+        float destinationAngle = Vector3.Angle(moveDirection, transform.forward);
+
+        if(destinationAngle < 45)
+        {
+            vert = 1;
+            hor = 0;
+        } else if(destinationAngle < 90)
+        {
+            vert = 1;
+            hor = 1;
+        } else if (destinationAngle < 135)
+        {
+            vert = -1;
+            hor = 1;
+        }
+        else
+        {
+            vert = -1;
+            hor = 0;
+        }
+
+        anim.SetFloat("Vertical", vert);
+        anim.SetFloat("Horizontal", hor);
     }
 
     public void EnterRestingState(float attackCooldown)
@@ -54,16 +82,25 @@ public class BossAI : Movement
 
     public void MoveAwayFromPlayer()
     {
-        Vector3 moveDirection = (transform.position - target.position).normalized;
-        moveDirection.y = 0;
-        Vector3 movement = moveDirection * currentMoveSpeed * Time.deltaTime;
-
-        //rb.position += movement;
-
         agent.enabled = true;
         agent.stoppingDistance = 0;
+
+        Vector3 playerDirection = (target.position - transform.position).normalized;
+        Vector3 moveDirection;
+
+        if (targetInRestingRange())
+        {
+            moveDirection = -playerDirection;
+        }
+        else
+        {
+            moveDirection = playerDirection;
+        }
+
+        moveDirection.y = 0;
+
         agent.SetDestination(transform.position + moveDirection);
-        //agent.Move(movement);
+        transform.rotation = Quaternion.LookRotation(playerDirection);
     }
 
     #region FSM
@@ -75,6 +112,7 @@ public class BossAI : Movement
 
     public void chasePlayer()
     {
+        agent.stoppingDistance = attackRange;
         agent.SetDestination(target.position);
     }
 
@@ -86,6 +124,11 @@ public class BossAI : Movement
     public void continueChase()
     {
         agent.enabled = true;
+    }
+
+    public void EnableAgentRotation(bool boolean)
+    {
+        agent.updateRotation = boolean;
     }
 
     public bool targetInSight()
@@ -103,7 +146,13 @@ public class BossAI : Movement
     public bool targetInAttackRange()
     {
         float distance = distanceToTarget();
-        return distance <= agent.stoppingDistance;
+        return distance <= attackRange;
+    }
+
+    public bool targetInRestingRange()
+    {
+        float distance = distanceToTarget();
+        return distance <= restingRange;
     }
     #endregion
 }

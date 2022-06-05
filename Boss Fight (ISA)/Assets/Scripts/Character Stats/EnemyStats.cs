@@ -16,7 +16,8 @@ public class EnemyStats : CharacterStats
 
         Died = true;
         anim.SetTrigger("Death");
-        GetComponent<SwordEnemyAI>().enabled = false;
+        //GetComponent<SwordEnemyAI>().enabled = false;
+        GetComponent<BossAI>().enabled = false;
         float animationDuration = anim.GetCurrentAnimatorClipInfo(0).Length;
         Invoke("destroyCorpse", animationDuration + .5f);
     }
