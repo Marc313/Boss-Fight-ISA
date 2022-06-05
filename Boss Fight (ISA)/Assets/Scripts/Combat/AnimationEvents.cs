@@ -12,9 +12,9 @@ public class AnimationEvents : MonoBehaviour
         playerCombat = (PlayerCombat) combat;
     }
 
-    public void OverlapSphere(float damage)
+    public void OverlapSphere(Attack attack)
     {
-        combat.OverlapSphere(damage, hitbox);
+        combat.OverlapSphere(attack, hitbox);
     }
 
     #region Player-Only

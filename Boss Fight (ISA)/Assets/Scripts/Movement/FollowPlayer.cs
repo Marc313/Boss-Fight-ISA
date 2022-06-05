@@ -95,7 +95,7 @@ public class FollowPlayer : MonoBehaviour
 
     public void RotateToLockedTarget()
     {
-        Vector3 lookDirection = EnemyLockOn.position - Player.position;
+        Vector3 lookDirection = FindObjectOfType<BossAI>().transform.position - Player.position;
         targetLookRotation = Quaternion.LookRotation(lookDirection);
         //targetLookRotation = Quaternion.Euler(Mathf.Clamp(targetLookRotation.eulerAngles.x, -20, 20), targetLookRotation.y, targetLookRotation.z);
 

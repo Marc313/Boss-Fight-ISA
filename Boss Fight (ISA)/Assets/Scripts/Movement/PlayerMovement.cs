@@ -78,7 +78,6 @@ public class PlayerMovement : Movement
 
         float inputMovementAngle = Vector3.Angle(transform.forward, moveDirection);
         anim.SetFloat("InputMovementAngle", inputMovementAngle);
-        Debug.Log("Horizontal: " + hor);
 
         // Rotation
         if (rotateMode == RotationMode.FREE)

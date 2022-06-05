@@ -3,7 +3,7 @@ using UnityEngine;
 public class ResponseAnimator : StateMachineBehaviour
 {
     private PlayerCombat playerCombat;
-    private EnemyAIFSM enemy;
+    private SwordEnemyAI enemy;
 
     private void Awake()
     {
@@ -28,16 +28,18 @@ public class ResponseAnimator : StateMachineBehaviour
 
     public void OnEnemyAttackOver(bool isInteracting)
     {
-        FindObjectOfType<EnemyCombat>().OnAttackOver(isInteracting);
+        FindObjectOfType<BossCombat>()?.OnAttackOver(isInteracting);
+        FindObjectOfType<SwordEnemyCombat>()?.OnAttackOver(isInteracting);
     }
 
     public void EnemyPerformNextAttack()
     {
-        FindObjectOfType<EnemyCombat>().PerformNextAttack();
+        FindObjectOfType<SwordEnemyCombat>()?.PerformNextAttack();
     }
 
     public void onEnemyStaggerOver()
     {
-        FindObjectOfType<EnemyCombat>().OnStaggerOver();
+        FindObjectOfType<BossCombat>()?.OnStaggerOver();
+        FindObjectOfType<SwordEnemyCombat>()?.OnStaggerOver();
     }
 }

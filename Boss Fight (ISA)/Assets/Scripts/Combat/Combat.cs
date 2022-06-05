@@ -20,7 +20,7 @@ public abstract class Combat : MonoBehaviour
         anim.SetInteger("Attack", currentAttack);
     }
 
-    public virtual void OverlapSphere(float damage, Transform hitbox)
+    public virtual void OverlapSphere(Attack attack, Transform hitbox)
     {
         Collider[] colliders = Physics.OverlapSphere(hitbox.position, 1f);
 
@@ -32,15 +32,10 @@ public abstract class Combat : MonoBehaviour
 
             if (characterStats != null)
             {
-                characterStats.takeDamage(damage);
+                characterStats.takeDamage(attack.damage);
                 break;
             }
         }
-    }
-
-    public void OnAttackOver(bool isInteracting)
-    {
-        PerformAttack(0, isInteracting);
     }
 
     public void Stagger()
@@ -54,5 +49,12 @@ public abstract class Combat : MonoBehaviour
     {
         movement.isInteracting = false;
         anim.SetBool("IsStaggering", false);
+    }
+
+    public void OnAttackOver(bool isInteracting = false)
+    {
+        currentAttack = 0;
+        anim.SetInteger("Attack", currentAttack);
+        movement.isInteracting = isInteracting;
     }
 }
