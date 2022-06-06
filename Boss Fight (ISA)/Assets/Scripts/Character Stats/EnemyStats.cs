@@ -25,6 +25,6 @@ public class EnemyStats : CharacterStats
     private void destroyCorpse()
     {
         Destroy(gameObject);
-        GameManager.OnStateChange(GameManager.GameState.WON);
+        GameManager.Instance.ChangeState(GameManager.GameState.WON);
     }
 }

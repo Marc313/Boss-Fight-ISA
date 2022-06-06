@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class UIManager : Singleton<UIManager>
 {
@@ -12,6 +9,35 @@ public class UIManager : Singleton<UIManager>
     private void Awake()
     {
         Instance = this;
+    }
+
+    private void OnEnable()
+    {
+        GameManager.OnStateChange += OnGameStateChanged;
+    }
+    private void OnDisable()
+    {
+        GameManager.OnStateChange -= OnGameStateChanged;
+    }
+
+    public void OnGameStateChanged(GameManager.GameState newState)
+    {
+        switch (newState)
+        {
+            case GameManager.GameState.FIGHT:
+                enableHUDCanvas(true);
+                enableDeathScreen(false);
+                enableWinScreen(false);
+                break;
+            case GameManager.GameState.LOST:
+                enableHUDCanvas(false);
+                enableDeathScreen(true);
+                break;
+            case GameManager.GameState.WON:
+                enableHUDCanvas(false);
+                enableWinScreen(true);
+                break;
+        }
     }
 
     public void enableHUDCanvas(bool active)

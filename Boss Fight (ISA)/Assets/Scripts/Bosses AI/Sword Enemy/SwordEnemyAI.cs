@@ -32,7 +32,7 @@ public class SwordEnemyAI : Movement
 
     private void Update()
     {
-        if (GameManager.state != GameManager.GameState.FIGHT)
+        if (GameManager.Instance.state != GameManager.GameState.FIGHT)
         {
             isInteracting = true;
         }
@@ -40,11 +40,6 @@ public class SwordEnemyAI : Movement
         if (!isInteracting)
         {
             stateMachine?.onUpdate();
-        }
-
-        if(Input.GetKeyDown(KeyCode.P))
-        {
-            anim.CrossFade("Boss_BigPunch", 0.2f);
         }
     }
 

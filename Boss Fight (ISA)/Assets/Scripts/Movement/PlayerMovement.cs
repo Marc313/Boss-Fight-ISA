@@ -34,12 +34,14 @@ public class PlayerMovement : Movement
 
     private void OnEnable()
     {
+        GameManager.OnStateChange += OnGameStateChange;
         combat.OnBlockingStart += SetRotationModeLocked;
         combat.OnBlockingEnd += SetRotationModeFree;
     }
 
     private void OnDisable()
     {
+        GameManager.OnStateChange -= OnGameStateChange;
         combat.OnBlockingStart -= SetRotationModeLocked;
         combat.OnBlockingEnd -= SetRotationModeFree;
     }
@@ -144,5 +146,14 @@ public class PlayerMovement : Movement
     {
         anim.SetFloat("Vertical", vert, 0.1f, Time.deltaTime);
         anim.SetFloat("Horizontal", Mathf.Abs(hor), 0.1f, Time.deltaTime);
+    }
+
+    private void OnGameStateChange(GameManager.GameState newState)
+    {
+        if (newState == GameManager.GameState.WON)
+        {
+            StopAllCoroutines();
+            anim.SetTrigger("Dance");
+        }
     }
 }

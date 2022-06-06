@@ -3,12 +3,12 @@ using UnityEngine;
 public class ApplyRootMotionToParent : MonoBehaviour
 {
     private Animator anim;
-    private PlayerMovement movement;
+    private Movement movement;
 
     private void Awake()
     {
         anim = GetComponent<Animator>();
-        movement = GetComponentInParent<PlayerMovement>();
+        movement = GetComponentInParent<Movement>();
     }
 
     private void OnAnimatorMove()
@@ -18,7 +18,9 @@ public class ApplyRootMotionToParent : MonoBehaviour
             movement.gameObject.transform.position += anim.deltaPosition;
         }*/
 
-        if (movement.isDodging)
+        //movement.gameObject.transform.position += anim.deltaPosition;
+
+        if (movement.isInteracting || GameManager.Instance.state != GameManager.GameState.FIGHT)
         {
             movement.gameObject.transform.position += anim.deltaPosition * 2;
         }

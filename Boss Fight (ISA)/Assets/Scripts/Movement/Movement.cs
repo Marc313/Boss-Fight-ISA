@@ -21,21 +21,11 @@ public abstract class Movement : MonoBehaviour
 
     protected virtual void Update()
     {
-        if (GameManager.state != GameManager.GameState.FIGHT)
+        if (GameManager.Instance.state != GameManager.GameState.FIGHT)
         {
             isInteracting = true;
         }
     }
-
-    /*private void OnCollisionEnter(Collision collision)
-    {
-        // If the collider is another movement script, ignore the pushing.
-        Movement movementScript = collision.gameObject.GetComponent<Movement>();
-        if (movementScript != null)
-        {
-            Physics.ign
-        }
-    }*/
 
     public void SetShieldMoveSpeed()
     {

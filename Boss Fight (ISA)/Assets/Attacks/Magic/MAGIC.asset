@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8ce03d1c4a635e4dabd17c0e58007a3, type: 3}
   m_Name: MAGIC
   m_EditorClassIdentifier: 
-  range: 7
-  moveSpeed: 5
+  range: 20
+  moveSpeed: 13
   damage: 10
   ProjectilePrefab: {fileID: 8151387403028488770, guid: 9f491cb1dd69b8641bee28f356972891, type: 3}
-  ImpactParticles: {fileID: 5817089674833416282, guid: b6b0f2c5e38be7546a8caa5a1d07d6bc, type: 3}
+  ImpactParticles: {fileID: 5817089674833416281, guid: b6b0f2c5e38be7546a8caa5a1d07d6bc, type: 3}

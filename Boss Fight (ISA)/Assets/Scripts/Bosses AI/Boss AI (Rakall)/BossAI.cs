@@ -36,15 +36,23 @@ public class BossAI : Movement
         target = player.transform;
     }
 
+    private void OnEnable()
+    {
+        GameManager.OnStateChange += OnGameStateChange;
+    }
+    private void OnDisable()
+    {
+        GameManager.OnStateChange -= OnGameStateChange;
+    }
+
     protected override void Update()
     {
-        if (GameManager.state == GameManager.GameState.FIGHT)
+        if (GameManager.Instance.state == GameManager.GameState.FIGHT)
         {
             stateMachine?.onUpdate();
         }
     }
 
-    // Movement
     public void UpdateRunningValue()
     {
         float vert = 0; float hor = 0;
@@ -101,6 +109,20 @@ public class BossAI : Movement
 
         agent.SetDestination(transform.position + moveDirection);
         transform.rotation = Quaternion.LookRotation(playerDirection);
+    }
+
+    private void OnGameStateChange(GameManager.GameState newState)
+    {
+        if (newState != GameManager.GameState.FIGHT)
+        {
+            stopChase();
+        }
+
+        if (newState == GameManager.GameState.LOST)
+        {
+            StopAllCoroutines();
+            anim.SetTrigger("Dance");
+        }
     }
 
     #region FSM
