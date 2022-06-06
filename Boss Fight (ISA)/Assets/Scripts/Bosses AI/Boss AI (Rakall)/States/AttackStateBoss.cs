@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class AttackStateBoss : State
 {
-    public Attack attack;
-    public AttackCombo attackCombo;
+    //public Attack attack;
+    public AttackCombo[] MeleeAttackCombos;
+
+    private AttackCombo CurrentAttackCombo;
     private BossCombat bossCombat;
 
     private void Awake()
@@ -13,17 +15,20 @@ public class AttackStateBoss : State
 
     public override void onEnter()
     {
+        // Choose an attack.
+        CurrentAttackCombo = MeleeAttackCombos[0];
+
         if (!bossAI.isInteracting && !bossAI.isInCombo)
         {
             bossAI.isInCombo = true;
-            StartCoroutine(bossCombat.PerformAttackCombo(attackCombo));
+            StartCoroutine(bossCombat.PerformAttackCombo(CurrentAttackCombo));
         }
     }
 
     public override void onExit()
     {
         bossAI.isInCombo = false;
-        bossCombat.StopAttackCombo(attackCombo);
+        bossCombat.StopAttackCombo(CurrentAttackCombo);
     }
 
     public override void onUpdate()

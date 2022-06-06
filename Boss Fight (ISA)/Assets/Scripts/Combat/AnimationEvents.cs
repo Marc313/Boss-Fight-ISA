@@ -5,11 +5,19 @@ public class AnimationEvents : MonoBehaviour
     public Transform hitbox;
     private Combat combat;
     private PlayerCombat playerCombat;      // Player Only
+    private BossCombat bossCombat;
 
     private void Awake()
     {
         combat = GetComponentInParent<Combat>();
-        playerCombat = (PlayerCombat) combat;
+        if (combat.GetType() == typeof(PlayerCombat))
+        {
+            playerCombat = (PlayerCombat) combat;
+        } 
+        else if (combat.GetType() == typeof(BossCombat))
+        {
+            bossCombat = (BossCombat)combat;
+        }
     }
 
     public void OverlapSphere(Attack attack)
@@ -30,4 +38,13 @@ public class AnimationEvents : MonoBehaviour
         playerCombat.IsShieldBashing = false;
     }
     #endregion
+
+    public void ShootProjectile(MagicAttack magicAttack)
+    {
+        BossAI bossAI = FindObjectOfType<BossAI>();
+        Vector3 bossPos = bossAI.transform.position;
+        Vector3 playerPos = bossAI.target.transform.position;
+
+        magicAttack.ShootAttackTowardsPlayer(bossPos, playerPos);
+    }
 }

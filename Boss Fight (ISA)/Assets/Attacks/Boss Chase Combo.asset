@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Boss Chase Combo
   m_EditorClassIdentifier: 
   attacks:
-  - {fileID: 11400000, guid: 89af77d9dde7d0a46b2a2360edf466ff, type: 2}
+  - {fileID: 11400000, guid: 075db3caef3dbc14da2d77d730f7779b, type: 2}
   - {fileID: 11400000, guid: 82e977401cb88d4428d04e06c5db30de, type: 2}
   AttackCooldown: 0
   priority: 0

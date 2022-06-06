@@ -411,7 +411,7 @@ GameObject:
   - component: {fileID: 29300438}
   - component: {fileID: 29300437}
   - component: {fileID: 29300436}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -490,7 +490,7 @@ Transform:
   m_GameObject: {fileID: 29300435}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -8.7, y: 0, z: 14.5}
-  m_LocalScale: {x: 4, y: 4, z: 4}
+  m_LocalScale: {x: 8, y: 8, z: 8}
   m_Children: []
   m_Father: {fileID: 1645371438}
   m_RootOrder: 0
@@ -18207,6 +18207,7 @@ GameObject:
   - component: {fileID: 1562427743}
   - component: {fileID: 1562427742}
   - component: {fileID: 1562427741}
+  - component: {fileID: 1562427744}
   m_Layer: 0
   m_Name: States
   m_TagString: Untagged
@@ -18265,8 +18266,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc1d635b605aa7e4b99fc2c2b4f61e8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attack: {fileID: 11400000, guid: bf4a461c644bee84199cd469b2eb5bd5, type: 2}
-  attackCombo: {fileID: 11400000, guid: 0900a5325ead92d43b4e5ec84cee6179, type: 2}
+  MeleeAttackCombos:
+  - {fileID: 11400000, guid: ecc56496ce2b0fd45a90cf6b95dd126d, type: 2}
+  - {fileID: 11400000, guid: 0900a5325ead92d43b4e5ec84cee6179, type: 2}
+--- !u!114 &1562427744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1562427739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07dea755c8ca10043af4262713bb676a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RangedAttacks:
+  - {fileID: 11400000, guid: 038c06b4782bfa744972dc1566209909, type: 2}
 --- !u!1 &1562855106
 GameObject:
   m_ObjectHideFlags: 0

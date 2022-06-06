@@ -2,8 +2,11 @@ using UnityEngine;
 
 public class ChaseStateBoss : State
 {
+    private float chaseTime;
+
     public override void onEnter()
     {
+        chaseTime = 0;
         bossAI.continueChase();
     }
 
@@ -14,29 +17,30 @@ public class ChaseStateBoss : State
 
     public override void onUpdate()
     {
-        /*if (bossAI.targetOutOfSight())
-        {
-            fsm.SwitchState(typeof(IdleSwordEnemy));
-            return;
-        }*/
-
-        if (bossAI.targetInAttackRange())
-        {
-            fsm.SwitchState(typeof(AttackStateBoss));
-            //Debug.Log("Switch!");
-            return;
-        }
+        chaseTime += Time.deltaTime;
 
         if (bossAI.isInteracting)
         {
-            //Debug.Log("Stop");
             bossAI.stopChase();
         }
         else
         {
-            //Debug.Log("Continue");
             bossAI.continueChase();
             bossAI.chasePlayer();
+        }
+
+
+        // If the chase is going on too long, do a ranged attack.
+        if (bossAI.targetInSight() && chaseTime > 4f)
+        {
+            fsm.SwitchState(typeof(RangedAttackStateBoss));
+            return;
+        }
+
+        if (bossAI.targetInAttackRange())
+        {
+            fsm.SwitchState(typeof(AttackStateBoss));
+            return;
         }
 
         bossAI.UpdateRunningValue();
