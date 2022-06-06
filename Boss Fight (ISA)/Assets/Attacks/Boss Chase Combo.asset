@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91a8f3afb0ebf8b46b8b004d39229896, type: 3}
+  m_Name: Boss Chase Combo
+  m_EditorClassIdentifier: 
+  attacks:
+  - {fileID: 11400000, guid: 89af77d9dde7d0a46b2a2360edf466ff, type: 2}
+  - {fileID: 11400000, guid: 82e977401cb88d4428d04e06c5db30de, type: 2}
+  AttackCooldown: 0
+  priority: 0

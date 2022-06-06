@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3f62eed5b2fe5041ab97c1fdadebd85, type: 3}
   m_Name: Boss_BigPunch
   m_EditorClassIdentifier: 
-  AnimationName: Boss_BigPunch
-  damage: 10
+  AttackClip: {fileID: 7400000, guid: a504bb2d570ca1f49bbaf2000129bcae, type: 2}
+  damage: 15
   ignoresShieldBash: 0
-  staggersPlayer: 0
+  staggersPlayer: 1

@@ -7,8 +7,6 @@ public abstract class Combat : MonoBehaviour
     protected Animator anim;
     protected Movement movement;
 
-    public Transform hitbox;
-
     protected virtual void Awake()
     {
         anim = GetComponentInChildren<Animator>();
@@ -24,7 +22,6 @@ public abstract class Combat : MonoBehaviour
 
     public virtual void OverlapSphere(Attack attack, Transform hitbox)
     {
-        this.hitbox = hitbox;
         Collider[] colliders = Physics.OverlapSphere(hitbox.position, 1.5f);
 
         foreach (Collider collider in colliders)
@@ -39,12 +36,6 @@ public abstract class Combat : MonoBehaviour
                 break;
             }
         }
-    }
-
-    private void OnDrawGizmos()
-    {
-        if (hitbox != null) 
-        Gizmos.DrawWireSphere(hitbox.position, 1.5f);
     }
 
     public void Stagger()

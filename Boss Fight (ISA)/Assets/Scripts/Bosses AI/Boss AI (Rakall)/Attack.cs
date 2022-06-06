@@ -3,14 +3,14 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Attacks/Attack")]
 public class Attack : ScriptableObject
 {
-    public string AnimationName;
+    public AnimationClip AttackClip;
     public float damage;
     public bool ignoresShieldBash;
     public bool staggersPlayer;
 
     public void PerformAttack(Animator ownerAnimator)
     {
-        AnimationManager.PlayAnimationClip(ownerAnimator, AnimationName, true);
+        AnimationManager.PlayAnimationClip(ownerAnimator, AttackClip.name, true);
     }
 
     public float GetAnimationLength(Animator ownerAnimator)
@@ -18,7 +18,7 @@ public class Attack : ScriptableObject
         RuntimeAnimatorController controller = ownerAnimator.runtimeAnimatorController;
         foreach(AnimationClip clip in controller.animationClips)
         {
-            if(clip.name.Equals(AnimationName))
+            if(clip.name.Equals(AttackClip.name))
             {
                 return clip.length;
             }

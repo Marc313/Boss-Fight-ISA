@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3f62eed5b2fe5041ab97c1fdadebd85, type: 3}
   m_Name: Player_Attack_2
   m_EditorClassIdentifier: 
-  AnimationName: Player_Attack_2
+  AttackClip: {fileID: 7400000, guid: a986b5106dc35b048a32f1f9155ea000, type: 2}
   damage: 10
   ignoresShieldBash: 0
   staggersPlayer: 0

@@ -68,21 +68,34 @@ public class BossCombat : Combat
     public IEnumerator PerformAttackCombo(AttackCombo combo)
     {
         if (combo == null || combo.attacks == null) yield return null;
+
+        BossAI bossAI = (BossAI)movement;
+
         foreach (Attack attack in combo.attacks)
         {
+            // Perform attackk and wait until done
             PerformAttack(attack);
             float attackLength = attack.GetAnimationLength(anim);
             Debug.Log($"Length: {attackLength}");
             if (attackLength != -1)
             {
                 yield return new WaitForSeconds(attackLength);
-            } else
+            }
+            else
             {
                 yield return new WaitForSeconds(2f);
             }
+
+            // If still in attack state, perform next attack
+            if (bossAI != null && bossAI.targetInAttackRange()){
+                continue;
+            } 
+            else
+            {
+                break;
+            }
         }
 
-        BossAI bossAI = (BossAI) movement;
         if (bossAI != null)
         {
             bossAI.EnterRestingState(combo.AttackCooldown);

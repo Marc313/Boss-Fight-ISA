@@ -13,6 +13,11 @@ public class AttackStateBoss : State
 
     public override void onEnter()
     {
+        if (!bossAI.isInteracting && !bossAI.isInCombo)
+        {
+            bossAI.isInCombo = true;
+            StartCoroutine(bossCombat.PerformAttackCombo(attackCombo));
+        }
     }
 
     public override void onExit()
@@ -23,16 +28,10 @@ public class AttackStateBoss : State
 
     public override void onUpdate()
     {
-        if (!bossAI.targetInAttackRange())
+        if (!bossAI.targetInAttackRange() && !bossAI.isInteracting)
         {
             fsm.SwitchState(typeof(ChaseStateBoss));
             return;
-        }
-
-        if (!bossAI.isInteracting && !bossAI.isInCombo)
-        {
-            bossAI.isInCombo = true;
-            StartCoroutine(bossCombat.PerformAttackCombo(attackCombo));
         }
     }
 }

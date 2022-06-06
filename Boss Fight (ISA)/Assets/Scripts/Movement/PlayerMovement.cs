@@ -65,12 +65,10 @@ public class PlayerMovement : Movement
                 Move(vertInput, horInput);
             }
         }
-        //rb.velocity = new Vector3(movement.x, rb.velocity.y, movement.z);
     }
 
     private void Move(float vert, float hor)
     {
-        //Vector3 inputDirection = Vector3.forward * vert + Vector3.right * hor;
         moveDirection = (playerCamera.transform.forward * vert + playerCamera.transform.right * hor).normalized;
         Vector3 movement = moveDirection * currentMoveSpeed * Time.deltaTime;
 
