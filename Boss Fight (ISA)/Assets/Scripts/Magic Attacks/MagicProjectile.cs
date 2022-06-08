@@ -5,9 +5,11 @@ public class MagicProjectile : MonoBehaviour
     [HideInInspector] public float moveSpeed;
     [HideInInspector] public float damage;
     [HideInInspector] public float lifeTime;
+    [HideInInspector] public float UpdateTargetRate;
     [HideInInspector] public GameObject ImpactParticles;
 
     private ParticleSystem trailParticles;
+    private Transform target;
     private Vector3 targetDirection;
     private bool isExploded;
 
@@ -19,9 +21,10 @@ public class MagicProjectile : MonoBehaviour
     private void Start()
     {
         trailParticles.Play();
+        InvokeRepeating(nameof(SetNewTargetDirection), 0, UpdateTargetRate);
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (isExploded) return;
 
@@ -36,9 +39,9 @@ public class MagicProjectile : MonoBehaviour
         if (isExploded) return;
 
         PlayerStats stats = other.GetComponent<PlayerStats>();
-        if(stats != null)
+
+        if (stats != null)
         {
-            Debug.Log("COLLISION");
             TriggerExplosion();
             stats.takeDamage(damage);
         }
@@ -53,16 +56,22 @@ public class MagicProjectile : MonoBehaviour
         if (lifeTime <= 0) TriggerExplosion();
     }
 
-    public void SetTarget(Vector3 targetPosition)
+    public void SetTarget(Transform target)
     {
-        targetDirection = (targetPosition - transform.position).normalized;
+        this.target = target;
+    }
+
+    private void SetNewTargetDirection()
+    {
+        if (target == null) return;
+        targetDirection = (target.transform.position - transform.position).normalized;
+        targetDirection.y = 0; // Stay on the ground
     }
 
     private void TriggerExplosion()
     {
+        CancelInvoke(nameof(SetNewTargetDirection));
         isExploded = true;
-        //trailParticles.Stop();
-
         Instantiate(ImpactParticles, transform.position, ImpactParticles.transform.rotation, transform);
 
         Destroy(this.gameObject, 1.6f);

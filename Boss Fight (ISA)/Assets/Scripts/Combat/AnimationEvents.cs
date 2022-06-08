@@ -41,10 +41,6 @@ public class AnimationEvents : MonoBehaviour
 
     public void ShootProjectile(MagicAttack magicAttack)
     {
-        BossAI bossAI = FindObjectOfType<BossAI>();
-        Vector3 bossPos = bossAI.transform.position;
-        Vector3 playerPos = bossAI.target.transform.position;
-
-        magicAttack.ShootAttackTowardsPlayer(bossPos, playerPos);
+        bossCombat.PerformMagicAttack(magicAttack);
     }
 }

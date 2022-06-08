@@ -7,9 +7,11 @@ public class Attack : ScriptableObject
     public float damage;
     public bool ignoresShieldBash;
     public bool staggersPlayer;
+    public bool useRootMotion;
 
     public void PerformAttack(Animator ownerAnimator)
     {
+        ownerAnimator.applyRootMotion = useRootMotion;
         AnimationManager.PlayAnimationClip(ownerAnimator, AttackClip.name, true);
     }
 

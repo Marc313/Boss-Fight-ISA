@@ -13,16 +13,11 @@ public class ApplyRootMotionToParent : MonoBehaviour
 
     private void OnAnimatorMove()
     {
-        /*if (anim.deltaPosition.magnitude > .2f)
-        {
-            movement.gameObject.transform.position += anim.deltaPosition;
-        }*/
-
-        //movement.gameObject.transform.position += anim.deltaPosition;
-
         if (movement.isInteracting || GameManager.Instance.state != GameManager.GameState.FIGHT)
         {
-            movement.gameObject.transform.position += anim.deltaPosition * 2;
+            Vector3 rootMovement = anim.deltaPosition * 2;
+            rootMovement.y = 0;
+            movement.gameObject.transform.position += rootMovement;
         }
     }
 }

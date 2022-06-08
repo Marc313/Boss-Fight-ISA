@@ -3,10 +3,13 @@ using UnityEngine;
 
 public class BossCombat : Combat
 {
+    public BossAI bossAI;
+
     protected override void Awake()
     {
         base.Awake();
         movement = GetComponent<BossAI>();
+        bossAI = (BossAI)movement;
     }
 
     public override void OverlapSphere(Attack attack, Transform hitbox)
@@ -69,8 +72,6 @@ public class BossCombat : Combat
     {
         if (combo == null || combo.attacks == null) yield return null;
 
-        BossAI bossAI = (BossAI)movement;
-
         foreach (Attack attack in combo.attacks)
         {
             // Perform attackk and wait until done
@@ -87,9 +88,10 @@ public class BossCombat : Combat
             }
 
             // If still in attack state, perform next attack
-            if (bossAI != null && bossAI.targetInAttackRange()){
+            if (bossAI != null && bossAI.targetInAttackRange())
+            {
                 continue;
-            } 
+            }
             else
             {
                 break;
@@ -108,5 +110,15 @@ public class BossCombat : Combat
 
         movement.isInteracting = true;
         attack.PerformAttack(anim);
+    }
+
+    public void PerformMagicAttack(MagicAttack magicAttack)
+    {
+        if (magicAttack == null) return;
+
+        Vector3 bossPos = bossAI.transform.position;
+        Transform playerTransform = bossAI.target;
+
+        magicAttack.ShootAttackTowardsPlayer(bossPos, playerTransform);
     }
 }

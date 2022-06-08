@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b8ce03d1c4a635e4dabd17c0e58007a3, type: 3}
-  m_Name: MAGIC
+  m_Name: Quick Magic
   m_EditorClassIdentifier: 
   range: 20
-  moveSpeed: 13
+  moveSpeed: 9
   damage: 10
+  UpdateTargetRate: 0.5
   ProjectilePrefab: {fileID: 8151387403028488770, guid: 9f491cb1dd69b8641bee28f356972891, type: 3}
   ImpactParticles: {fileID: 5817089674833416281, guid: b6b0f2c5e38be7546a8caa5a1d07d6bc, type: 3}

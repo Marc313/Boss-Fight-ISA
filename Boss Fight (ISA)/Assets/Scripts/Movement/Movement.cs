@@ -43,15 +43,13 @@ public abstract class Movement : MonoBehaviour
     public IEnumerator RotateTowardsSlowly(Quaternion oldRotation, Quaternion targetRotation, System.Action onDone = null)
     {
         //Debug.Log("Coroutine Start");
-        /*float angle = Quaternion.Angle(oldRotation, targetRotation);
+        float angle = Quaternion.Angle(oldRotation, targetRotation);
         float time = angle / rotationSpeed;
-        float t = 0;*/
+        float t = 0;
 
         transform.rotation = oldRotation;
 
-        float t = 0;
-
-        while (t < .5f)
+        while (t < time)
         {
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
             t += Time.deltaTime;

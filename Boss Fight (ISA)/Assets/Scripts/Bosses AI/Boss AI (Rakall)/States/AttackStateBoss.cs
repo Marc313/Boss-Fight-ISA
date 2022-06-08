@@ -16,7 +16,8 @@ public class AttackStateBoss : State
     public override void onEnter()
     {
         // Choose an attack.
-        CurrentAttackCombo = MeleeAttackCombos[0];
+        int randomAttackIndex = Random.Range(0, MeleeAttackCombos.Length);
+        CurrentAttackCombo = MeleeAttackCombos[randomAttackIndex];
 
         if (!bossAI.isInteracting && !bossAI.isInCombo)
         {
