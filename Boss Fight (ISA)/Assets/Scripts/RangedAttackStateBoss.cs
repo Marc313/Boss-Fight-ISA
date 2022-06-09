@@ -13,7 +13,8 @@ public class RangedAttackStateBoss : State
 
     public override void onEnter()
     {
-        CurrentAttackCombo = RangedAttacks[0];
+        int randomAttackIndex = Random.Range(0, RangedAttacks.Length);
+        CurrentAttackCombo = RangedAttacks[randomAttackIndex];
 
         if (!bossAI.isInteracting && !bossAI.isInCombo)
         {

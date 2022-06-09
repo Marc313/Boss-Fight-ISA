@@ -7,9 +7,11 @@ public abstract class CharacterStats : MonoBehaviour
     public float MaxHealth = 100;
     protected float health;
     [SerializeField] protected HealthBar healthBar;
+    protected Animator anim;
 
-    private void Awake()
+    protected virtual void Awake()
     {
+        anim = GetComponentInChildren<Animator>();
     }
 
     private void Start()
@@ -28,7 +30,7 @@ public abstract class CharacterStats : MonoBehaviour
         health -= amount;
         if (health <= 0)
         {
-            onDie();
+            OnDie();
         }
 
         healthBar.UpdateHealthBar(GetHealthValue());
@@ -39,5 +41,5 @@ public abstract class CharacterStats : MonoBehaviour
         return health / MaxHealth;
     }
 
-    public abstract void onDie();
+    public abstract void OnDie();
 }

@@ -11,6 +11,7 @@ public class PlayerMovement : Movement
     public bool isDodging { get; private set; }
 
     private Vector3 moveDirection;
+    private Quaternion targetRotation;
 
     private enum RotationMode { FREE, LOCKON, SWITCHING};
     private RotationMode rotateMode;
@@ -29,6 +30,7 @@ public class PlayerMovement : Movement
         if (!isInteracting)
         {
             HandleMoveInput();
+            UpdateTargetRotation();
         }
     }
 
@@ -50,9 +52,6 @@ public class PlayerMovement : Movement
     {
         float vertInput = Input.GetAxisRaw("Vertical");
         float horInput = Input.GetAxisRaw("Horizontal");
-
-        vertInput = ClampMoveInput(vertInput);
-        horInput = ClampMoveInput(horInput);
 
         UpdateAnimationValues(vertInput, horInput);
 
@@ -76,17 +75,25 @@ public class PlayerMovement : Movement
 
         rb.position += movement;
 
+        // Do I use this?
         float inputMovementAngle = Vector3.Angle(transform.forward, moveDirection);
         anim.SetFloat("InputMovementAngle", inputMovementAngle);
+    }
 
-        // Rotation
+    private void UpdateTargetRotation()
+    {
+        // Update the targetRotation
         if (rotateMode == RotationMode.FREE)
         {
-            transform.rotation = GetFreeRotation();
-        } else if (rotateMode == RotationMode.LOCKON)
-        {
-            transform.rotation = GetLockOnRotation();
+            targetRotation = GetFreeRotation();
         }
+        else if (rotateMode == RotationMode.LOCKON)
+        {
+            targetRotation = GetLockOnRotation();
+        }
+
+        // Every frame, rotate towards the target rotation with a current speed.
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
     }
 
     private void DodgeStart()
@@ -105,18 +112,22 @@ public class PlayerMovement : Movement
 
     private void SetRotationModeLocked()
     {
-        rotateMode = RotationMode.SWITCHING;
+        /*rotateMode = RotationMode.SWITCHING;
         Quaternion oldRotation = GetFreeRotation();
         Quaternion targetRotation = GetLockOnRotation();
-        StartCoroutine(this.RotateTowardsSlowly(oldRotation, targetRotation, () => rotateMode = RotationMode.LOCKON));
+        StartCoroutine(this.RotateTowardsSlowly(oldRotation, targetRotation, () => rotateMode = RotationMode.LOCKON));*/
+
+        rotateMode = RotationMode.LOCKON;
     }
 
     private void SetRotationModeFree()
     {
-        rotateMode = RotationMode.SWITCHING;
+        /*rotateMode = RotationMode.SWITCHING;
         Quaternion oldRotation = GetLockOnRotation();
         Quaternion targetRotation = GetFreeRotation();
-        StartCoroutine(this.RotateTowardsSlowly(oldRotation, targetRotation, () => rotateMode = RotationMode.FREE));
+        StartCoroutine(this.RotateTowardsSlowly(oldRotation, targetRotation, () => rotateMode = RotationMode.FREE));*/
+
+        rotateMode = RotationMode.FREE;
     }
 
     private Quaternion GetFreeRotation()
@@ -132,18 +143,9 @@ public class PlayerMovement : Movement
         return cameraRotation;
     }
 
-    private float ClampMoveInput(float input)
-    {
-        if (input > 0 && input <= 0.55f) input = 0.5f;
-        else if (input < 0 && input >= -0.55f) input = 0.5f;
-        else if (input > 0.55f) input = 1;
-        else if (input < -0.55f) input = -1;
-
-        return input;
-    }
-
     private void UpdateAnimationValues(float vert, float hor)
     {
+        Debug.Log($"Vertical: {vert}, Horizontal: {hor}");
         anim.SetFloat("Vertical", vert, 0.1f, Time.deltaTime);
         anim.SetFloat("Horizontal", Mathf.Abs(hor), 0.1f, Time.deltaTime);
     }

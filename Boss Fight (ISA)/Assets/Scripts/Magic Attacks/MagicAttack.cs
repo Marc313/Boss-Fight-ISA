@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Magic/Magic Attack")]
 public class MagicAttack : ScriptableObject
 {
-    public float range = 7f;
+    public float lifetime = 7f;
     public float moveSpeed = 5f;
     public float damage = 10f;
     public float UpdateTargetRate = .5f;
@@ -34,7 +34,7 @@ public class MagicAttack : ScriptableObject
     {
         projectile.moveSpeed = moveSpeed;
         projectile.damage = damage;
-        projectile.lifeTime = range;
+        projectile.lifeTime = lifetime;
         projectile.ImpactParticles = ImpactParticles;
         projectile.UpdateTargetRate = UpdateTargetRate;
     }

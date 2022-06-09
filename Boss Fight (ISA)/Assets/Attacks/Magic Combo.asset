@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attacks:
   - {fileID: 11400000, guid: bad7061134b74f8429a77ef87e100645, type: 2}
-  AttackCooldown: 3
+  AttackCooldown: 1
   priority: 0

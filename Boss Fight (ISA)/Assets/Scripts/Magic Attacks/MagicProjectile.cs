@@ -28,6 +28,9 @@ public class MagicProjectile : MonoBehaviour
     {
         if (isExploded) return;
 
+        lifeTime -= Time.deltaTime;
+        if (lifeTime <= 0) TriggerExplosion();
+
         if (targetDirection != null)
         {
             ShootTowards(targetDirection);
@@ -51,9 +54,6 @@ public class MagicProjectile : MonoBehaviour
     {
         Vector3 movement = direction * Time.deltaTime * moveSpeed;
         transform.position += movement;
-
-        lifeTime -= movement.magnitude;
-        if (lifeTime <= 0) TriggerExplosion();
     }
 
     public void SetTarget(Transform target)

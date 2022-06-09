@@ -49,7 +49,7 @@ public class BossAI : Movement
     {
         if (GameManager.Instance.state == GameManager.GameState.FIGHT)
         {
-            stateMachine?.onUpdate();
+            stateMachine?.OnUpdate();
         }
     }
 
@@ -115,7 +115,8 @@ public class BossAI : Movement
     {
         if (newState != GameManager.GameState.FIGHT)
         {
-            stopChase();
+            agent.enabled = false;
+            stateMachine?.ExitCurrentState();       // Only use AI states during the Fight.
         }
 
         if (newState == GameManager.GameState.LOST)

@@ -69,7 +69,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 368480589436193527, guid: e791ff5c9ccbddc419b83aa6d8ef7833, type: 3}
       propertyPath: m_Name
-      value: Ground Trail Variant
+      value: Ground Projectile
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e791ff5c9ccbddc419b83aa6d8ef7833, type: 3}
@@ -105,7 +105,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.8
+  m_Radius: 0.4
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2412413478453163687
 MonoBehaviour:

@@ -39,7 +39,7 @@ public class SwordEnemyAI : Movement
 
         if (!isInteracting)
         {
-            stateMachine?.onUpdate();
+            stateMachine?.OnUpdate();
         }
     }
 

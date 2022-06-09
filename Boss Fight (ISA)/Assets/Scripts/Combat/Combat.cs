@@ -13,6 +13,16 @@ public abstract class Combat : MonoBehaviour
         movement = GetComponent<Movement>();
     }
 
+    // Variation 1
+    public void PerformAttack(Attack attack)
+    {
+        if (attack == null) return;
+
+        movement.isInteracting = true;
+        attack.PerformAttack(anim);
+    }
+
+    // Variation 2
     public void PerformAttack(int attackID, bool isInteracting)
     {
         movement.isInteracting = isInteracting;

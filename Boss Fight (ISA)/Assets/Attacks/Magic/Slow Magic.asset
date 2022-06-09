@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8ce03d1c4a635e4dabd17c0e58007a3, type: 3}
   m_Name: Slow Magic
   m_EditorClassIdentifier: 
-  range: 20
-  moveSpeed: 9
+  lifetime: 5
+  moveSpeed: 6
   damage: 10
   UpdateTargetRate: 0.5
-  ProjectilePrefab: {fileID: 8151387403028488770, guid: 9f491cb1dd69b8641bee28f356972891, type: 3}
-  ImpactParticles: {fileID: 5817089674833416281, guid: b6b0f2c5e38be7546a8caa5a1d07d6bc, type: 3}
+  ProjectilePrefab: {fileID: 7211910360841704383, guid: 4fc442e4dcd3a96498b401b691dc968f, type: 3}
+  ImpactParticles: {fileID: 8689376254283565486, guid: 1bfe4aead0fb722488c5647421515af7, type: 3}

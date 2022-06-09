@@ -2,15 +2,9 @@ using UnityEngine;
 
 public class EnemyStats : CharacterStats
 {
-    private Animator anim;
     private bool Died;
 
-    private void Awake()
-    {
-        anim = GetComponentInChildren<Animator>();
-    }
-
-    public override void onDie()
+    /*public override void onDie()
     {
         if (Died) return;
 
@@ -25,6 +19,13 @@ public class EnemyStats : CharacterStats
     private void destroyCorpse()
     {
         Destroy(gameObject);
+        GameManager.Instance.ChangeState(GameManager.GameState.WON);
+    }*/
+
+    public override void OnDie()
+    {
+        Died = true;
+        anim.SetTrigger("Death");
         GameManager.Instance.ChangeState(GameManager.GameState.WON);
     }
 }

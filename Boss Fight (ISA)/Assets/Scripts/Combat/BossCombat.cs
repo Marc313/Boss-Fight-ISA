@@ -50,13 +50,12 @@ public class BossCombat : Combat
             }
             else if (playerCombat.IsBlocking && !playerCombat.IsShieldBashing)
             {
-                playerStats.takeDamage(attack.damage / 5);
+                playerStats.takeDamage(attack.damage / 2);      // Reduce damage by half when blocking.
             }
             else if (playerCombat.IsShieldBashing && !attack.ignoresShieldBash)
             {
                 Stagger();
             }
-
             break;
         }
     }
@@ -77,7 +76,6 @@ public class BossCombat : Combat
             // Perform attackk and wait until done
             PerformAttack(attack);
             float attackLength = attack.GetAnimationLength(anim);
-            Debug.Log($"Length: {attackLength}");
             if (attackLength != -1)
             {
                 yield return new WaitForSeconds(attackLength);
@@ -88,7 +86,9 @@ public class BossCombat : Combat
             }
 
             // If still in attack state, perform next attack
-            if (bossAI != null && bossAI.targetInAttackRange())
+            if (bossAI != null 
+                && bossAI.targetInAttackRange() 
+                && GameManager.Instance.state == GameManager.GameState.FIGHT)
             {
                 continue;
             }
@@ -103,14 +103,7 @@ public class BossCombat : Combat
             bossAI.EnterRestingState(combo.AttackCooldown);
         }
     }
-
-    public void PerformAttack(Attack attack)
-    {
-        if (attack == null) return;
-
-        movement.isInteracting = true;
-        attack.PerformAttack(anim);
-    }
+    
 
     public void PerformMagicAttack(MagicAttack magicAttack)
     {

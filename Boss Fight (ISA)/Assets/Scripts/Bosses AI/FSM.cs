@@ -25,9 +25,15 @@ public class FSM : MonoBehaviour
         Debug.Log(currentState.ToString());
     }*/
 
-    public void onUpdate()
+    public void OnUpdate()
     {
         currentState?.onUpdate();
+    }
+
+    public void ExitCurrentState()
+    {
+        currentState?.onExit();
+        currentState = null;
     }
 
     public void SwitchState(Type stateType)
