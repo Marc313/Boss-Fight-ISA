@@ -1,31 +1,36 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+public class GameManager : Singleton<GameManager>
 {
     public enum GameState { FIGHT, LOST, WON };
 
-    public static GameState state;
-    //public static GameState gameState { get { return state; } set { OnStateChange(value); } }
+    public GameState state;
+    public static event System.Action<GameState> OnStateChange;
 
-    public static void OnStateChange(GameState newState)
+    private void Awake()
+    {
+        Instance = this;
+    }
+
+    private void Start()
+    {
+        state = GameState.FIGHT;
+    }
+
+    public void ChangeState(GameState newState)
     {
         state = newState;
-        switch (newState)
+        OnStateChange?.Invoke(newState);
+
+        if (newState != GameState.FIGHT)
         {
-            case GameState.FIGHT:
-                UIManager.Instance.enableHUDCanvas(true);
-                UIManager.Instance.enableDeathScreen(false);
-                UIManager.Instance.enableWinScreen(false);
-                break;
-            case GameState.LOST:
-                UIManager.Instance.enableHUDCanvas(false);
-                UIManager.Instance.enableDeathScreen(true);
-                break;
-            case GameState.WON:
-                UIManager.Instance.enableHUDCanvas(false);
-                UIManager.Instance.enableWinScreen(true);
-                break;
+            Invoke(nameof(ReloadCurrentScene), 5f);
         }
     }
 
+    private void ReloadCurrentScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
 }

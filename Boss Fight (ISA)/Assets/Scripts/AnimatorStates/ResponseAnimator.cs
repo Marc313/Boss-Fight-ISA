@@ -2,57 +2,44 @@ using UnityEngine;
 
 public class ResponseAnimator : StateMachineBehaviour
 {
-    private CombatOneHanded playerCombat;
-    private EnemyAIFSM enemy;
+    private PlayerCombat playerCombat;
+    private SwordEnemyAI enemy;
 
     private void Awake()
     {
-        playerCombat = FindObjectOfType<CombatOneHanded>();
-        enemy = FindObjectOfType<EnemyAIFSM>();
+        // playerCombat = FindObjectOfType<PlayerCombat>();
+        // enemy = FindObjectOfType<EnemyAIFSM>();
     }
 
     public void onPlayerAttackOver(bool isInteracting)
     {
-        FindObjectOfType<CombatOneHanded>()?.OnAttackOver(isInteracting);
+        FindObjectOfType<PlayerCombat>()?.OnAttackOver(isInteracting);
     }
 
     public void OnPlayerBlockOver()
     {
-        FindObjectOfType<CombatOneHanded>()?.OnBlockOver();
+        FindObjectOfType<PlayerCombat>()?.OnBlockOver();
     }
 
-    public void OnPlayerShieldBashOver()
+    public void OnPlayerDodgeOver()
     {
-        FindObjectOfType<CombatOneHanded>()?.OnShieldBashOver();
+        FindObjectOfType<PlayerMovement>()?.OnDodgeOver();
     }
 
-    public void onEnemyAttackOverMovement(int attackID)
+    public void OnEnemyAttackOver(bool isInteracting)
     {
-        FindObjectOfType<EnemyAIFSM>().AttackTarget(attackID, false);
+        FindObjectOfType<BossCombat>()?.OnAttackOver(isInteracting);
+        FindObjectOfType<SwordEnemyCombat>()?.OnAttackOver(isInteracting);
     }
 
-    public void onEnemyAttackOverInteracting(int attackID)
+    public void EnemyPerformNextAttack()
     {
-        FindObjectOfType<EnemyAIFSM>().AttackTarget(attackID, true);
+        FindObjectOfType<SwordEnemyCombat>()?.PerformNextAttack();
     }
 
     public void onEnemyStaggerOver()
     {
-        FindObjectOfType<EnemyAIFSM>().OnStaggerOver();
-    }
-
-    public void onEnemyAttackOver()
-    {
-        EnemyAIFSM enemy = FindObjectOfType<EnemyAIFSM>();
-
-        if (enemy.targetInAttackRange())
-        {
-            int attackID = enemy.currentAttack == 2 ? 2 : enemy.currentAttack + 1;
-            enemy.AttackTarget(attackID, true);
-        }
-        else
-        {
-            enemy.AttackTarget(0, false);
-        }
+        FindObjectOfType<BossCombat>()?.OnStaggerOver();
+        FindObjectOfType<SwordEnemyCombat>()?.OnStaggerOver();
     }
 }
